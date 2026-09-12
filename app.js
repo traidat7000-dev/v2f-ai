@@ -6,6 +6,7 @@
    ============================================================ */
 
 var twEl = document.getElementById('typewriter');
+var twWrap = document.querySelector('.typewriter-wrap');
 var cursor = document.createElement('span');
 cursor.className = 'cursor';
 
@@ -20,14 +21,22 @@ function showMsg(html){
 
 /* Tự động đẩy chữ cũ lên khi chữ mới chạm ngưỡng 2/3 khung */
 function autoPush(){
-  if(!twEl) return;
-  var h = twEl.clientHeight;
-  var sh = twEl.scrollHeight;
-  // Nếu nội dung vượt quá 2/3 chiều cao khung → đẩy lên
-  var threshold = h * 0.66;
-  if(sh > threshold){
-    twEl.scrollTop = sh - threshold;
-  }
+  if(!twEl || !twWrap) return;
+  // Dùng requestAnimationFrame để đảm bảo DOM đã cập nhật
+  requestAnimationFrame(function(){
+    var wrapH = twWrap.clientHeight;        // chiều cao khung tranh
+    var contentH = twEl.scrollHeight;        // chiều cao nội dung chữ
+    var threshold = wrapH * 0.66;            // 2/3 khung
+
+    // Nếu nội dung vượt 2/3 khung → cuộn xuống để chữ mới nhất nằm ở 2/3
+    if(contentH > threshold){
+      // Vị trí cuộn = tổng chiều cao - 2/3 khung (để chữ mới luôn ở 2/3)
+      twEl.scrollTop = contentH - threshold;
+    } else {
+      // Chưa vượt → giữ ở đầu
+      twEl.scrollTop = 0;
+    }
+  });
 }
 
 function startTyping(){
@@ -150,6 +159,22 @@ function notice(html,warn){
   if(!n) return;
   n.innerHTML=html;
   n.className="notice show"+(warn?" warn":"");
+}
+
+/* Hiện "đã lưu" khi key thay đổi */
+function showSaveHint(){
+  var box = $("apiKeyBox");
+  if(!box) return;
+  var hint = box.querySelector(".save-hint");
+  if(hint){
+    var old = hint.textContent;
+    hint.textContent = "✅ Đã lưu";
+    hint.style.color = "#34d399";
+    setTimeout(function(){
+      hint.textContent = old;
+      hint.style.color = "";
+    }, 1500);
+  }
 }
 
 function checkGPU(){
@@ -292,7 +317,11 @@ function send(){
       addMsg("ai","🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
       return;
     }
-    try{localStorage.setItem("v2f_api_key",key);}catch(e){}
+    // Lưu key
+    try{
+      localStorage.setItem("v2f_api_key",key);
+      showSaveHint();
+    }catch(e){}
     pr=callCloud(text,key);
   }
   
@@ -307,10 +336,36 @@ function send(){
 }
 
 function setup(){
+  // KHÔI PHỤC API KEY ĐÃ LƯU
   try{
     var saved=localStorage.getItem("v2f_api_key");
-    if(saved)$("apiKey").value=saved;
+    if(saved && $("apiKey")){
+      $("apiKey").value=saved;
+      console.log("[V2F] Đã khôi phục API Key từ bộ nhớ");
+    }
   }catch(e){}
+  
+  // TỰ ĐỘNG LƯU API KEY KHI GÕ
+  var apiInput = $("apiKey");
+  if(apiInput){
+    apiInput.addEventListener("input", function(){
+      try{
+        var v = this.value.trim();
+        if(v.length > 10){
+          localStorage.setItem("v2f_api_key", v);
+        }
+      }catch(e){}
+    });
+    apiInput.addEventListener("change", function(){
+      try{
+        var v = this.value.trim();
+        if(v.length > 10){
+          localStorage.setItem("v2f_api_key", v);
+          showSaveHint();
+        }
+      }catch(e){}
+    });
+  }
   
   var lb=document.querySelectorAll(".lang-btn");
   for(var i=0;i<lb.length;i++){lb[i].onclick=function(){
