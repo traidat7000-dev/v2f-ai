@@ -2,14 +2,13 @@
 'use strict';
 
 /* ============================================================
-   TYPEWRITER — CHẠY LIÊN TỤC, TỰ ĐẨY LÊN KHI CHẠM 2/3 MÀN HÌNH
+   SCROLL TEXT — VĂN BẢN TỰ TRÔI TỪ DƯỚI LÊN TRÊN (TELEPROMPTER)
    ============================================================ */
 var twEl = document.getElementById('typewriter');
-var cursor = document.createElement('span');
-cursor.className = 'cursor';
 var TEXT = '';
-var idx = 0;
-var typing = false;
+var scrollTimer = null;
+var SPEED = 0.5;        // tốc độ cuộn (px mỗi frame) — tăng/giảm tùy ý
+var WAIT_AT_END = 3000; // dừng bao lâu ở cuối trước khi lặp lại (ms)
 
 function showMsg(html){
   if(!twEl) return;
@@ -21,62 +20,64 @@ function setTypewriterHeight(){
   if(!twEl) return;
   var maxH = Math.floor(window.innerHeight * 0.66);
   twEl.style.maxHeight = maxH + 'px';
-  twEl.style.overflowY = 'auto';
-  twEl.style.scrollBehavior = 'smooth';
+  twEl.style.overflow = 'hidden';
   twEl.style.position = 'relative';
 }
 
-/* Tự động đẩy chữ lên khi vượt 2/3 — dùng scrollHeight thực tế */
-function autoPush(){
-  if(!twEl) return;
+/* Bắt đầu cuộn văn bản từ dưới lên */
+function startScrolling(){
+  if(!twEl || !TEXT) return;
+  stopScrolling();
+
+  // Render toàn bộ văn bản, giữ nguyên xuống dòng
+  twEl.innerHTML = '';
+  var content = document.createElement('div');
+  content.className = 'scroll-content';
+  content.style.whiteSpace = 'pre-wrap';
+  content.style.padding = '0 16px';
+  content.style.textAlign = 'center';
+  content.textContent = TEXT;
+  twEl.appendChild(content);
+
+  // Đặt vị trí ban đầu: nội dung nằm dưới khung nhìn
   var maxH = Math.floor(window.innerHeight * 0.66);
-  // Chỉ đẩy khi nội dung vượt quá 2/3 màn hình
-  if(twEl.scrollHeight > maxH){
-    twEl.scrollTop = twEl.scrollHeight;
+  var startY = maxH;
+  content.style.transform = 'translateY(' + startY + 'px)';
+
+  var y = startY;
+  var contentH = content.scrollHeight;
+  var endY = -contentH; // khi nào nội dung trôi hết lên trên
+
+  function step(){
+    y -= SPEED;
+    content.style.transform = 'translateY(' + y + 'px)';
+
+    if(y <= endY){
+      // Hết văn bản → dừng 1 nhịp rồi chạy lại từ đầu
+      scrollTimer = setTimeout(function(){
+        y = startY;
+        content.style.transform = 'translateY(' + y + 'px)';
+        step();
+      }, WAIT_AT_END);
+      return;
+    }
+    scrollTimer = requestAnimationFrame(step);
   }
+  step();
 }
 
-function startTyping(){
-  idx = 0;
-  typing = true;
-  if(twEl){
-    twEl.textContent = '';
-    twEl.scrollTop = 0;
-  }
-  typeNext();
-}
-
-function typeNext(){
-  if(!twEl || !typing) return;
-  if(idx < TEXT.length){
-    twEl.textContent = TEXT.substring(0, idx + 1);
-    twEl.appendChild(cursor);
-    idx++;
-
-    // Đẩy lên ngay sau khi render
-    requestAnimationFrame(autoPush);
-
-    var ch = TEXT.charAt(idx - 1);
-    var delay;
-    if(ch === '\n') delay = 220;
-    else if(ch === '.' || ch === '!' || ch === '?') delay = 140;
-    else if(ch === '━' || ch === '✧' || ch === '✦' || ch === '═') delay = 20;
-    else delay = 45;
-    setTimeout(typeNext, delay);
-  } else {
-    setTimeout(function(){
-      idx = 0;
-      twEl.textContent = '';
-      twEl.scrollTop = 0;
-      typeNext();
-    }, 8000);
+function stopScrolling(){
+  if(scrollTimer){
+    cancelAnimationFrame(scrollTimer);
+    clearTimeout(scrollTimer);
+    scrollTimer = null;
   }
 }
 
 /* Cập nhật lại chiều cao khi resize màn hình */
 window.addEventListener('resize', function(){
   setTypewriterHeight();
-  autoPush();
+  startScrolling(); // chạy lại cho khớp khung mới
 });
 setTypewriterHeight();
 
@@ -96,7 +97,7 @@ function loadContent(){
       }
       TEXT = clean;
       console.log('[V2F] Đã tải v2f-content.txt:', clean.length, 'ký tự');
-      startTyping();
+      startScrolling();
     })
     .catch(function(err){
       console.error('[V2F] Lỗi tải file:', err);
@@ -106,7 +107,7 @@ function loadContent(){
           .then(function(txt){
             if(txt && txt.trim().length > 30){
               TEXT = txt.replace(/\r\n/g, '\n').trim();
-              startTyping();
+              startScrolling();
             } else {
               showMsg('<div style="color:#f87171;font-size:14px">⚠️ Không tải được v2f-content.txt</div>' +
                 '<div style="font-size:12px;color:#9db1c8;margin-top:12px">Vui lòng kiểm tra file đã upload lên GitHub:</div>' +
