@@ -2,8 +2,7 @@
 'use strict';
 
 /* ============================================================
-   ĐỌC FILE v2f-content.txt VÀ GÕ CHỮ CHẬM TRÊN TRANH
-   Không có fallback ngắn — chỉ chạy nội dung từ file .txt
+   ĐỌC FILE v2f-content.txt VÀ GÕ CHỮ CHẬM — TỰ ĐỘNG CUỘN
    ============================================================ */
 
 var twEl = document.getElementById('typewriter');
@@ -12,15 +11,26 @@ cursor.className = 'cursor';
 var idx = 0;
 var TEXT = '';
 var loaded = false;
+var autoScroll = true; // cho phép tự cuộn
 
 function showMsg(html){
   if(!twEl) return;
   twEl.innerHTML = html;
 }
 
+/* Tự động cuộn để chữ mới nhất luôn hiện trong khung */
+function scrollToCursor(){
+  if(!twEl) return;
+  // Cuộn xuống cuối — chữ mới luôn trong tầm mắt
+  twEl.scrollTop = twEl.scrollHeight;
+}
+
 function startTyping(){
   idx = 0;
-  if(twEl) twEl.textContent = '';
+  if(twEl){
+    twEl.textContent = '';
+    twEl.scrollTop = 0;
+  }
   typeNext();
 }
 
@@ -30,6 +40,8 @@ function typeNext(){
     twEl.textContent = TEXT.substring(0, idx + 1);
     twEl.appendChild(cursor);
     idx++;
+    // Tự động cuộn xuống sau mỗi ký tự
+    scrollToCursor();
     var ch = TEXT.charAt(idx - 1);
     var delay;
     if(ch === '\n') delay = 260;
@@ -41,6 +53,7 @@ function typeNext(){
     setTimeout(function(){
       idx = 0;
       twEl.textContent = '';
+      twEl.scrollTop = 0;
       typeNext();
     }, 8000);
   }
@@ -50,7 +63,6 @@ function typeNext(){
    TẢI FILE v2f-content.txt
    ============================================================ */
 function loadContent(){
-  // Cache-busting để không dùng bản cũ
   fetch('./v2f-content.txt?v=' + Date.now())
     .then(function(r){
       if(!r.ok) throw new Error('HTTP ' + r.status);
@@ -59,7 +71,7 @@ function loadContent(){
     .then(function(txt){
       var clean = (txt || '').replace(/\r\n/g, '\n').trim();
       if(clean.length < 30){
-        throw new Error('File quá ngắn hoặc rỗng (' + clean.length + ' ký tự)');
+        throw new Error('File quá ngắn (' + clean.length + ' ký tự)');
       }
       TEXT = clean;
       loaded = true;
@@ -68,7 +80,6 @@ function loadContent(){
     })
     .catch(function(err){
       console.error('[V2F] Lỗi tải file:', err);
-      // Thử tải lại 1 lần nữa sau 3s (có thể GitHub chưa build xong)
       setTimeout(function(){
         fetch('./v2f-content.txt?retry=' + Date.now())
           .then(function(r){return r.ok ? r.text() : null;})
@@ -78,16 +89,13 @@ function loadContent(){
               loaded = true;
               startTyping();
             } else {
-              showMsg('<span style="color:#f87171">⚠️ Không tải được v2f-content.txt</span><br><br>' +
-                '<span style="font-size:12px;color:#9db1c8">Vui lòng kiểm tra:</span><br>' +
-                '<span style="font-size:12px;color:#9db1c8">• File v2f-content.txt đã upload lên GitHub repo v2f-ai</span><br>' +
-                '<span style="font-size:12px;color:#9db1c8">• Tên file chính xác (không dấu cách)</span><br>' +
-                '<span style="font-size:12px;color:#9db1c8">• Đợi 1-2 phút cho GitHub build</span><br><br>' +
-                '<a href="https://traidat7000-dev.github.io/v2f-ai/v2f-content.txt" target="_blank" style="color:#65d9ff;font-size:12px">🔗 Kiểm tra file tại đây</a>');
+              showMsg('<span style="color:#f87171;font-size:14px">⚠️ Không tải được v2f-content.txt</span><br><br>' +
+                '<span style="font-size:12px;color:#9db1c8">Vui lòng kiểm tra file đã upload lên GitHub:</span><br>' +
+                '<a href="https://traidat7000-dev.github.io/v2f-ai/v2f-content.txt" target="_blank" style="color:#65d9ff;font-size:12px">🔗 Kiểm tra file</a>');
             }
           })
           .catch(function(){
-            showMsg('<span style="color:#f87171">⚠️ Không tải được file nội dung</span>');
+            showMsg('<span style="color:#f87171;font-size:14px">⚠️ Không tải được file nội dung</span>');
           });
       }, 3000);
     });
