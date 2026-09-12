@@ -1,93 +1,80 @@
 (function(){
 'use strict';
 
-/* ===== TYPEWRITER BÊN PHẢI ===== */
-var TEXT =
-'🎨 TRANH Ý NIỆM TƯƠNG TÁC ĐẦU TIÊN TRÊN THẾ GIỚI\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'✧ THUNG LŨNG HAY VỰC SÂU ✧\n' +
-'Tranh ý niệm tương tác tư duy\n' +
-'Bản đồ tư duy trước khi hành động\n\n' +
-'Tác giả: HỌA SĨ LÊ TRƯƠNG\n' +
-'(Truongology)\n' +
-'Năm sáng tác: 2026\n' +
-'Chất liệu: Bút lông dầu trên giấy A3\n' +
-'Độc bản duy nhất\n' +
-'Bản quyền 11375/2025\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'"Có những tác phẩm nghệ thuật chỉ\n' +
-'để ngắm nhìn. Và có những tác phẩm\n' +
-'sinh ra để đánh thức — đánh thức\n' +
-'những câu hỏi đã ngủ quên trong\n' +
-'sâu thẳm tâm hồn mỗi con người."\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'🌟 BA CÂU HỎI NỀN TẢNG 🌟\n\n' +
+/* ============================================================
+   ĐỌC FILE v2f-content.txt VÀ GÕ CHỮ CHẬM TRÊN TRANH
+   ============================================================ */
+
+var FALLBACK_TEXT =
+'🎨 TRANH Ý NIỆM TƯƠNG TÁC ĐẦU TIÊN TRÊN THẾ GIỚI\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'Kính thưa Quý Ngài,\n\n' +
+'Tôi là HỌA SĨ Lê Trương (Truongology) — Người sáng lập Hệ sinh thái Video To Future và là tác giả của cuốn sách "Valley or Abyss" đã được phát hành toàn cầu trên Amazon.\n\n' +
+'Một kiệt tác sẽ được ghi danh vào lịch sử nghệ thuật 100 năm tới.\n\n' +
+'✧ BỨC TRANH Ý NIỆM TƯƠNG TÁC TƯ DUY ✧\n' +
+'"THUNG LŨNG HAY VỰC SÂU"\n\n' +
+'3 CÂU HỎI NỀN TẢNG:\n' +
 '❶ Chúng ta đang ở đâu?\n' +
-'   Where are we?\n\n' +
 '❷ Thế giới đó vận hành thế nào?\n' +
-'   How does that world operate?\n\n' +
-'❸ Chúng ta muốn để lại tương lai gì?\n' +
-'   What future do we want to leave\n' +
-'   behind?\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'🏆 BA LẦN ĐẦU TIÊN TRONG 1000 NĂM\n\n' +
-'✦ Tranh ý niệm tương tác đầu tiên\n' +
-'  trên thế giới\n\n' +
-'✦ Hệ sinh thái Tranh - Sách - Phần mềm\n' +
-'  đầu tiên trên thế giới\n\n' +
-'✦ Họa sĩ đầu tiên đăng ký bản quyền\n' +
-'  Video To Future\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'📖 SÁCH: "VALLEY OR ABYSS"\n' +
-'Phát hành 5 ngôn ngữ trên Amazon:\n' +
-'English · 日本語 · 中文 · हिन्दी · Tiếng Việt\n\n' +
-'💻 PHẦN MỀM VIDEO TO FUTURE\n' +
-'Gửi khoảnh khắc đẹp vượt qua ranh\n' +
-'giới thời gian đến với tương lai.\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'🌏 TẦM NHÌN TOÀN CẦU\n' +
-'193 quốc gia thành viên Liên Hợp Quốc\n\n' +
-'"Nghệ thuật không chỉ dành cho\n' +
-'những người có điều kiện, mà phải\n' +
-'là món quà tinh thần cho mọi tâm hồn."\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'✍️ HỌA SĨ LÊ TRƯƠNG\n' +
-'Kiến trúc sư của Nhân cách\n' +
-'Nghệ sĩ Bản đồ Tư duy\n' +
-'Nhà thơ của Tương lai\n\n' +
+'❸ Chúng ta muốn để lại tương lai gì?\n\n' +
 '📞 Zalo: 0865 660 958\n' +
 '📧 video2future.givevalue@gmail.com\n' +
-'🌐 videotofuture.blogspot.com\n' +
-'📚 amazon.com/dp/B0GRVVJS2W\n' +
-'📍 B1 Hoàng Anh Gold House, TP.HCM\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'💫 "Chia sẻ yêu thương, cùng xây di sản" 💫\n\n' +
-'🎨 Video To Future · Truongology 🎨';
+'🌐 videotofuture.blogspot.com\n\n' +
+'💫 "Chia sẻ yêu thương, cùng xây di sản" 💫';
 
 var twEl = document.getElementById('typewriter');
-var idx = 0;
 var cursor = document.createElement('span');
 cursor.className = 'cursor';
+var idx = 0;
+var TEXT = '';
+
+function startTyping(text){
+  TEXT = text;
+  idx = 0;
+  if(twEl) twEl.textContent = '';
+  typeNext();
+}
 
 function typeNext(){
+  if(!twEl) return;
   if(idx < TEXT.length){
     twEl.textContent = TEXT.substring(0, idx + 1);
     twEl.appendChild(cursor);
     idx++;
     var ch = TEXT.charAt(idx - 1);
-    var d = ch === '\n' ? 90 : (ch === '━' ? 6 : 28);
-    setTimeout(typeNext, d);
+    var delay;
+    if(ch === '\n') delay = 260;
+    else if(ch === '.' || ch === '!' || ch === '?') delay = 160;
+    else if(ch === '━' || ch === '✧' || ch === '✦') delay = 22;
+    else delay = 55;
+    setTimeout(typeNext, delay);
   } else {
     setTimeout(function(){
       idx = 0;
       twEl.textContent = '';
       typeNext();
-    }, 5000);
+    }, 8000);
   }
 }
-typeNext();
 
-/* ===== AI CONFIG ===== */
+/* Đọc file v2f-content.txt — nếu lỗi thì dùng fallback */
+fetch('./v2f-content.txt?t=' + Date.now())
+  .then(function(r){
+    if(!r.ok) throw new Error('Không đọc được file');
+    return r.text();
+  })
+  .then(function(txt){
+    var clean = (txt || '').trim();
+    if(clean.length < 50) throw new Error('File rỗng');
+    startTyping(clean);
+  })
+  .catch(function(){
+    startTyping(FALLBACK_TEXT);
+  });
+
+/* ============================================================
+   AI SETUP
+   ============================================================ */
 var MODEL_MAP={
   "Llama-3.2-1B":"Llama-3.2-1B-Instruct-q4f16_1-MLC",
   "Qwen2.5-0.5B":"Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
@@ -104,12 +91,13 @@ var CLOUD={
 };
 
 var group="local",ai="Llama-3.2-1B";
-var engine=null,loading=false,lastResp="",gpu=false;
+var engine=null,loading=false,lastResp="",gpuOk=false,gpuStrong=false;
 
 function $(id){return document.getElementById(id)}
 
 function addMsg(type,text,meta){
   var w=$("chatWindow");
+  if(!w) return null;
   var d=document.createElement("div");
   d.className="msg "+type;
   d.textContent=text;
@@ -125,15 +113,29 @@ function addMsg(type,text,meta){
 
 function notice(html,warn){
   var n=$("notice");
+  if(!n) return;
   n.innerHTML=html;
   n.className="notice show"+(warn?" warn":"");
 }
 
 function checkGPU(){
-  if(!navigator.gpu){gpu=false;return Promise.resolve(false);}
+  if(!navigator.gpu){
+    gpuOk=false;gpuStrong=false;
+    return Promise.resolve({ok:false,strong:false,reason:"no-api"});
+  }
   return navigator.gpu.requestAdapter().then(function(a){
-    gpu=!!a;return gpu;
-  }).catch(function(){gpu=false;return false;});
+    if(!a){
+      gpuOk=false;gpuStrong=false;
+      return {ok:false,strong:false,reason:"no-adapter"};
+    }
+    gpuOk=true;
+    var lim = a.limits ? a.limits.maxComputeWorkgroupStorageSize : 0;
+    gpuStrong = lim >= 32768;
+    return {ok:true,strong:gpuStrong,limit:lim};
+  }).catch(function(e){
+    gpuOk=false;gpuStrong=false;
+    return {ok:false,strong:false,reason:e.message};
+  });
 }
 
 function setGroup(g,el){
@@ -154,15 +156,21 @@ function setAI(name,el){
   for(var i=0;i<ts.length;i++)ts[i].classList.remove("active");
   if(el)el.classList.add("active");
   if(group==="local"){
-    if(gpu){addMsg("system","Đã chọn "+name+" — miễn phí");loadLLM(name);}
-    else{addMsg("system","Máy chưa hỗ trợ WebGPU — vui lòng chọn AI Đám Mây hoặc bật WebGPU.");}
+    if(gpuOk && gpuStrong){
+      addMsg("system","Đã chọn "+name+" — miễn phí");
+      loadLLM(name);
+    }else if(gpuOk && !gpuStrong){
+      addMsg("system","⚠️ GPU máy bạn quá yếu. Vui lòng chọn AI Đám Mây (miễn phí với Gemini).");
+    }else{
+      addMsg("system","Máy chưa hỗ trợ WebGPU — vui lòng chọn AI Đám Mây.");
+    }
   }else{
     addMsg("system","Đã chọn "+name+" (dán API Key vào ô bên trên)");
   }
 }
 
 function loadLLM(name){
-  if(loading||!gpu)return;
+  if(loading||!gpuStrong)return;
   var id=MODEL_MAP[name];if(!id)return;
   loading=true;
   $("modelStatus").classList.add("show");
@@ -226,14 +234,19 @@ function send(){
   var pr;
   
   if(group==="local"){
-    if(!gpu){
+    if(!gpuOk){
       th.remove();
-      addMsg("ai","⚠️ Máy chưa hỗ trợ WebGPU. Bật: chrome://flags → WebGPU → Enabled → Restart. Hoặc chuyển sang AI Đám Mây + dán API Key miễn phí tại aistudio.google.com/app/apikey");
+      addMsg("ai","⚠️ Máy chưa hỗ trợ WebGPU. Vui lòng chuyển sang tab '☁️ AI Đám Mây' + dán API Key miễn phí tại https://aistudio.google.com/app/apikey");
+      return;
+    }
+    if(!gpuStrong){
+      th.remove();
+      addMsg("ai","⚠️ GPU máy bạn quá yếu để chạy AI Siêu Nhẹ. Vui lòng chuyển sang tab '☁️ AI Đám Mây' + dán API Key miễn phí tại https://aistudio.google.com/app/apikey");
       return;
     }
     if(!engine){
       th.remove();
-      addMsg("ai","⏳ Mô hình đang tải, vui lòng đợi. Hoặc chọn mô hình nhỏ hơn (Qwen2.5 0.5B).");
+      addMsg("ai","⏳ Mô hình đang tải, vui lòng đợi.");
       return;
     }
     pr=engine.chat.completions.create({messages:[{role:"user",content:text}],temperature:0.7,max_tokens:1024})
@@ -318,15 +331,21 @@ function setup(){
     $("micBtn").disabled=true;
   }
   
-  checkGPU().then(function(ok){
-    if(ok){
-      notice("✅ Máy bạn <strong>hỗ trợ WebGPU</strong>! AI Siêu Nhẹ đang tải — miễn phí.",false);
-      loadLLM("Llama-3.2-1B");
-    }else{
-      notice("⚠️ Máy <strong>chưa hỗ trợ WebGPU</strong>. Vẫn chat được bằng <strong>AI Đám Mây</strong> (dán API Key Gemini miễn phí tại <a href='https://aistudio.google.com/app/apikey' target='_blank'>aistudio.google.com/app/apikey</a>) — hoặc bật WebGPU: <code>chrome://flags</code> → 'WebGPU' → Enabled → Restart.",true);
-      addMsg("system","💡 Máy chưa hỗ trợ WebGPU. Bạn vẫn chat được — chỉ cần dán API Key Gemini miễn phí vào ô 🔑 bên trên.");
+  checkGPU().then(function(res){
+    if(!res.ok){
+      notice("⚠️ Máy bạn <strong>chưa hỗ trợ WebGPU</strong>. Vẫn chat được bằng <strong>AI Đám Mây</strong> — dán API Key Gemini miễn phí tại <a href='https://aistudio.google.com/app/apikey' target='_blank'>aistudio.google.com/app/apikey</a>.",true);
+      addMsg("system","💡 Máy chưa hỗ trợ WebGPU. Dán API Key Gemini miễn phí vào ô 🔑 bên trên để chat.");
       setGroup("cloud",$("groupCloud"));
+      return;
     }
+    if(!res.strong){
+      notice("⚠️ GPU máy bạn <strong>quá yếu</strong> để chạy AI Siêu Nhẹ. Vẫn chat được bằng <strong>AI Đám Mây</strong> — dán API Key Gemini miễn phí tại <a href='https://aistudio.google.com/app/apikey' target='_blank'>aistudio.google.com/app/apikey</a>.",true);
+      addMsg("system","💡 GPU máy bạn quá yếu cho AI Siêu Nhẹ. Dán API Key Gemini miễn phí vào ô 🔑 bên trên để chat (30 giây).");
+      setGroup("cloud",$("groupCloud"));
+      return;
+    }
+    notice("✅ Máy bạn <strong>hỗ trợ WebGPU</strong>! AI Siêu Nhẹ đang tải — miễn phí.",false);
+    loadLLM("Llama-3.2-1B");
   });
 }
 
