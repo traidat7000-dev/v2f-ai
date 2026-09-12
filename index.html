@@ -8,58 +8,46 @@
 :root{--panel-bg:rgba(10,22,38,.88);--panel-border:rgba(101,217,255,.3);--text:#eef6ff;--muted:#9db1c8;--accent:#65d9ff;--accent2:#a78bfa;--success:#34d399;--warning:#fbbf24;--danger:#f87171}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;height:100vh;overflow:hidden;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--text);background:#07111f}
-
 .layout{display:flex;height:100vh;width:100%}
-
 .left-panel{width:55%;min-width:340px;height:100vh;padding:16px 14px;display:flex;flex-direction:column;gap:9px;background:linear-gradient(135deg,rgba(7,17,31,.99),rgba(15,30,50,.99));overflow-y:auto;border-right:2px solid var(--accent)}
-
 .brand{display:flex;align-items:center;gap:10px}
 .brand .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#07111f;font-weight:900;font-size:15px;display:grid;place-items:center;flex-shrink:0}
 .brand h1{margin:0;font-size:19px;font-weight:700}
-
 .guide{background:rgba(101,217,255,.08);border:1px solid rgba(101,217,255,.3);border-radius:9px;padding:7px 11px;font-size:11px;line-height:1.5}
 .guide strong{color:var(--accent)}
 .guide .step{display:inline-block;background:var(--accent);color:#07111f;font-weight:700;border-radius:50%;width:14px;height:14px;text-align:center;line-height:14px;font-size:9px;margin-right:4px}
 .guide a{color:var(--accent)}
-
 .notice{display:none;background:rgba(101,217,255,.12);border:1px solid var(--accent);border-radius:9px;padding:8px 11px;font-size:11px;line-height:1.5}
 .notice.show{display:block}
 .notice.warn{background:rgba(251,191,36,.12);border-color:var(--warning)}
 .notice strong{color:var(--accent)}
 .notice.warn strong{color:var(--warning)}
 .notice a{color:var(--accent)}
-
 .lang-bar{display:flex;gap:4px;flex-wrap:wrap}
 .lang-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:5px;padding:2px 7px;color:var(--muted);font-size:9.5px;cursor:pointer;transition:.2s}
 .lang-btn.active,.lang-btn:hover{background:rgba(101,217,255,.2);color:#fff;border-color:var(--accent)}
-
 .ai-group-bar{display:flex;gap:4px;flex-wrap:wrap}
 .ai-group{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 9px;color:var(--muted);font-size:10.5px;cursor:pointer;transition:.2s;font-weight:600;flex:1;text-align:center}
 .ai-group.active,.ai-group:hover{background:rgba(167,139,250,.2);border-color:var(--accent2);color:#fff}
-
 .ai-selector-bar{display:flex;gap:4px;flex-wrap:wrap}
 .ai-tab{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:4px 8px;color:var(--muted);font-size:10px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:3px}
 .ai-tab.active,.ai-tab:hover{background:rgba(101,217,255,.2);border-color:var(--accent);color:#fff}
 .ai-tab .badge{font-size:7.5px;padding:1px 4px;border-radius:4px;background:var(--success);color:#07111f;font-weight:700}
 .ai-tab .badge.cloud{background:var(--warning)}
-
 .model-status{display:none;background:rgba(5,13,24,.9);border:1px solid var(--accent);border-radius:9px;padding:8px 11px;font-size:11px}
 .model-status.show{display:block}
 .progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:5px;overflow:hidden}
 .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .3s ease}
-
 .api-key-box{background:rgba(5,13,24,.7);border:1px dashed var(--accent);border-radius:9px;padding:6px 10px;display:flex;gap:8px;align-items:center;font-size:11px}
 .api-key-box.hidden{display:none}
 .api-key-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:11px;font-family:inherit}
 .api-key-box .save-hint{font-size:9px;color:var(--muted);white-space:nowrap}
-
 .chat-window{flex:1;min-height:150px;overflow-y:auto;background:rgba(5,13,24,.6);border:1px solid var(--panel-border);border-radius:11px;padding:11px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
 .msg{padding:7px 11px;border-radius:9px;max-width:90%;font-size:12.5px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
 .msg.user{background:rgba(101,217,255,.25);border:1px solid var(--accent);align-self:flex-end;color:#fff}
 .msg.ai{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);align-self:flex-start;color:var(--text)}
 .msg.system{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);align-self:center;color:var(--muted);font-size:10.5px;text-align:center;max-width:90%}
 .msg .meta{font-size:9px;color:var(--muted);margin-top:4px;display:block}
-
 .input-box{background:rgba(5,13,24,.85);border:1px solid var(--panel-border);border-radius:11px;padding:8px}
 textarea{width:100%;height:42px;background:transparent;border:none;outline:none;color:var(--text);font-size:12.5px;resize:none;font-family:inherit}
 .tools-bar{display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:5px}
@@ -71,21 +59,16 @@ textarea{width:100%;height:42px;background:transparent;border:none;outline:none;
 .btn.recording{background:#8b1d2c!important;animation:pulse 1.5s infinite}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 @keyframes pulse{0%{opacity:1}50%{opacity:.5}100%{opacity:1}}
-
 .footer-author{text-align:center;font-size:10px;color:var(--muted);line-height:1.4}
 .footer-author strong{color:var(--accent)}
 .chat-window::-webkit-scrollbar,.left-panel::-webkit-scrollbar{width:5px}
 .chat-window::-webkit-scrollbar-thumb,.left-panel::-webkit-scrollbar-thumb{background:rgba(101,217,255,.3);border-radius:3px}
-
 .right-panel{width:45%;position:relative;height:100vh;overflow:hidden;background:url('Tranhtang.jpg') center/cover no-repeat;background-color:#1a0d0d}
-
 .right-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,17,31,.85) 0%,rgba(7,17,31,.55) 50%,rgba(7,17,31,.9) 100%);z-index:1}
-
-.typewriter-wrap{position:absolute;inset:0;z-index:2;padding:30px 26px;display:flex;align-items:flex-start;justify-content:center;pointer-events:none;overflow:hidden}
+.typewriter-wrap{position:absolute;inset:0;z-index:2;padding:26px 22px;display:flex;align-items:flex-start;justify-content:center;pointer-events:none;overflow:hidden}
 .typewriter{font-family:'Courier New',Courier,monospace;font-size:14px;line-height:1.7;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,1),0 0 20px rgba(101,217,255,.5);white-space:pre-wrap;word-wrap:break-word;max-width:100%;letter-spacing:.3px}
 .typewriter .cursor{display:inline-block;width:8px;height:1em;background:var(--accent);margin-left:2px;vertical-align:text-bottom;animation:blink .8s infinite}
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-
 @media(max-width:900px){
   .layout{flex-direction:column}
   .left-panel{width:100%;height:60vh;min-height:400px;border-right:none;border-bottom:2px solid var(--accent);padding:11px}
@@ -187,269 +170,7 @@ textarea{width:100%;height:42px;background:transparent;border:none;outline:none;
   </div>
 </div>
 
-<script type="module">
-import * as webllm from "https://esm.run/@mlc-ai/web-llm";
-window.__webllm = webllm;
-window.dispatchEvent(new Event("webllm-ready"));
-</script>
-
-<script>
-(function(){
-'use strict';
-
-/* ===== CHỮ CHẠY BÊN PHẢI ===== */
-var TYPEWRITER_TEXT =
-'🎨 TRANH Ý NIỆM TƯƠNG TÁC\nĐẦU TIÊN TRÊN THẾ GIỚI\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'✧ THUNG LŨNG HAY VỰC SÂU ✧\n' +
-'Tranh ý niệm tương tác tư duy\n' +
-'Bản đồ tư duy trước khi hành động\n\n' +
-'Tác giả: HỌA SĨ LÊ TRƯƠNG\n' +
-'(Truongology)\n' +
-'Năm sáng tác: 2026\n' +
-'Chất liệu: Bút lông dầu trên giấy A3\n' +
-'Độc bản duy nhất\n' +
-'Bản quyền 11375/2025\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'"Có những tác phẩm nghệ thuật\n' +
-'chỉ để ngắm nhìn. Và có những\n' +
-'tác phẩm sinh ra để đánh thức —\n' +
-'đánh thức những câu hỏi đã ngủ\n' +
-'quên trong sâu thẳm tâm hồn\n' +
-'mỗi con người."\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'🌟 BA CÂU HỎI NỀN TẢNG 🌟\n\n' +
-'❶ Chúng ta đang ở đâu?\n' +
-'   Where are we?\n\n' +
-'❷ Thế giới đó vận hành thế nào?\n' +
-'   How does that world operate?\n\n' +
-'❸ Chúng ta muốn để lại\n' +
-'   tương lai gì?\n' +
-'   What future do we want\n' +
-'   to leave behind?\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'🏆 BA LẦN ĐẦU TIÊN\nTRONG 1000 NĂM\n\n' +
-'✦ Tranh ý niệm tương tác\n' +
-'  đầu tiên trên thế giới\n\n' +
-'✦ Hệ sinh thái Tranh - Sách\n' +
-'  - Phần mềm đầu tiên\n\n' +
-'✦ Họa sĩ đầu tiên đăng ký\n' +
-'  bản quyền Video To Future\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'📖 SÁCH: "VALLEY OR ABYSS"\n' +
-'Phát hành 5 ngôn ngữ trên Amazon:\n' +
-'English · 日本語 · 中文\n' +
-'हिन्दी · Tiếng Việt\n\n' +
-'💻 PHẦN MỀM VIDEO TO FUTURE\n' +
-'Gửi khoảnh khắc đẹp vượt qua\n' +
-'ranh giới thời gian đến tương lai.\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'🌏 TẦM NHÌN TOÀN CẦU\n' +
-'193 quốc gia thành viên\n' +
-'Liên Hợp Quốc\n\n' +
-'"Nghệ thuật không chỉ dành cho\n' +
-'những người có điều kiện, mà\n' +
-'phải là món quà tinh thần cho\n' +
-'mọi tâm hồn."\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'✍️ HỌA SĨ LÊ TRƯƠNG\n' +
-'Kiến trúc sư của Nhân cách\n' +
-'Nghệ sĩ Bản đồ Tư duy\n' +
-'Nhà thơ của Tương lai\n\n' +
-'📞 Zalo: 0865 660 958\n' +
-'📧 video2future.givevalue@gmail.com\n' +
-'🌐 videotofuture.blogspot.com\n' +
-'📚 amazon.com/dp/B0GRVVJS2W\n' +
-'📍 B1 Hoàng Anh Gold House, TP.HCM\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'💫 "Chia sẻ yêu thương,\ncùng xây di sản" 💫\n\n' +
-'🎨 Video To Future · Truongology 🎨';
-
-var typewriterEl = document.getElementById('typewriter');
-var typeIdx = 0;
-var cursorEl = document.createElement('span');
-cursorEl.className = 'cursor';
-
-function typeNext(){
-  if(typeIdx < TYPEWRITER_TEXT.length){
-    typewriterEl.textContent = TYPEWRITER_TEXT.substring(0, typeIdx + 1);
-    typewriterEl.appendChild(cursorEl);
-    typeIdx++;
-    var ch = TYPEWRITER_TEXT.charAt(typeIdx - 1);
-    var delay = ch === '\n' ? 100 : (ch === '━' ? 8 : 30);
-    setTimeout(typeNext, delay);
-  } else {
-    setTimeout(function(){
-      typeIdx = 0;
-      typewriterEl.textContent = '';
-      typeNext();
-    }, 5000);
-  }
-}
-typeNext();
-
-/* ===== AI SETUP ===== */
-var MODEL_MAP={
-  "Llama-3.2-1B":"Llama-3.2-1B-Instruct-q4f16_1-MLC",
-  "Qwen2.5-0.5B":"Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
-  "Phi-3.5-mini":"Phi-3.5-mini-instruct-q4f16_1-MLC",
-  "Gemma-2-2B":"gemma-2-2b-it-q4f16_1-MLC"
-};
-var CLOUD_ENDPOINTS={
-  "Gemini":{url:"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",type:"gemini"},
-  "ChatGPT":{url:"https://api.openai.com/v1/chat/completions",type:"openai",model:"gpt-4o-mini"},
-  "DeepSeek":{url:"https://api.deepseek.com/chat/completions",type:"openai",model:"deepseek-chat"},
-  "Claude":{url:"https://api.anthropic.com/v1/messages",type:"anthropic",model:"claude-3-5-sonnet-20241022"},
-  "Grok":{url:"https://api.x.ai/v1/chat/completions",type:"openai",model:"grok-beta"},
-  "Mistral":{url:"https://api.mistral.ai/v1/chat/completions",type:"openai",model:"mistral-large-latest"}
-};
-
-var currentGroup="local",currentAI="Llama-3.2-1B",currentLang="vi";
-var engine=null,engineLoading=false,lastAIResponse="",webGPUSupported=false,webllmModule=null;
-
-function $(id){return document.getElementById(id)}
-function appendMsg(type,text,meta){var w=$("chatWindow");var d=document.createElement("div");d.className="msg "+type;d.textContent=text;if(meta){var m=document.createElement("span");m.className="meta";m.textContent=meta;d.appendChild(m)}w.appendChild(d);w.scrollTop=w.scrollHeight;return d}
-
-function showNotice(html, isWarn){
-  var n=$("notice");
-  n.innerHTML=html;
-  n.className="notice show"+(isWarn?" warn":"");
-}
-
-function checkGPU(){
-  if(!navigator.gpu){webGPUSupported=false;return Promise.resolve(false);}
-  return navigator.gpu.requestAdapter().then(function(a){
-    if(!a){webGPUSupported=false;return false}
-    webGPUSupported=true;return true;
-  }).catch(function(){webGPUSupported=false;return false});
-}
-
-function selectGroup(g,el){
-  currentGroup=g;
-  var gs=document.querySelectorAll(".ai-group");
-  for(var i=0;i<gs.length;i++)gs[i].classList.remove("active");
-  if(el)el.classList.add("active");
-  var ts=document.querySelectorAll(".ai-tab");
-  for(var j=0;j<ts.length;j++){ts[j].style.display=ts[j].getAttribute("data-group")===g?"inline-flex":"none"}
-  $("apiKeyBox").classList.toggle("hidden",g!=="cloud");
-  var ft=document.querySelector('.ai-tab[data-group="'+g+'"]');
-  if(ft)ft.click();
-}
-
-function selectAI(name,el){
-  currentAI=name;
-  var ts=document.querySelectorAll(".ai-tab");
-  for(var i=0;i<ts.length;i++)ts[i].classList.remove("active");
-  if(el)el.classList.add("active");
-  if(currentGroup==="local"){
-    if(webGPUSupported){
-      appendMsg("system","Đã chọn "+name+" — miễn phí");
-      loadWebLLM(name);
-    }else{
-      appendMsg("system","Máy chưa hỗ trợ WebGPU — vui lòng chọn AI Đám Mây hoặc bật WebGPU.");
-    }
-  }else{
-    appendMsg("system","Đã chọn "+name+" (dán API Key vào ô bên trên)");
-  }
-}
-
-function loadWebLLM(name){
-  if(engineLoading||!webGPUSupported)return;
-  var id=MODEL_MAP[name];if(!id)return;
-  engineLoading=true;
-  $("modelStatus").classList.add("show");
-  $("modelStatusText").textContent="Đang tải "+name+"...";
-  $("progressFill").style.width="0%";
-  
-  function doLoad(mod){
-    webllmModule=mod;
-    return mod.CreateMLCEngine(id,{
-      initProgressCallback:function(r){
-        var p=Math.round((r.progress||0)*100);
-        $("progressFill").style.width=p+"%";
-        $("modelStatusText").textContent="Đang tải "+name+" — "+p+"% — "+(r.text||"");
-      }
-    });
-  }
-  function onLoaded(eng){
-    engine=eng;
-    $("modelStatusText").textContent="✅ "+name+" đã sẵn sàng!";
-    $("progressFill").style.width="100%";
-    setTimeout(function(){$("modelStatus").classList.remove("show")},2500);
-    appendMsg("system","✅ "+name+" đã sẵn sàng! Chat ngay — miễn phí.");
-    engineLoading=false;
-  }
-  function onErr(e){
-    $("modelStatusText").textContent="❌ Lỗi: "+e.message;
-    console.error(e);
-    engineLoading=false;
-  }
-  
-  if(window.__webllm){doLoad(window.__webllm).then(onLoaded).catch(onErr);}
-  else{
-    window.addEventListener("webllm-ready",function(){doLoad(window.__webllm).then(onLoaded).catch(onErr);},{once:true});
-    setTimeout(function(){if(!window.__webllm){onErr(new Error("Không tải được WebLLM sau 20s"))}},20000);
-  }
-}
-
-function callCloudAI(text,key){
-  var c=CLOUD_ENDPOINTS[currentAI];if(!c)return Promise.reject(new Error("Unknown AI"));
-  if(c.type==="gemini"){return fetch(c.url+"?key="+key,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:text}]}]})}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error.message);return d.candidates[0].content.parts[0].text})}
-  if(c.type==="openai"){return fetch(c.url,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},body:JSON.stringify({model:c.model,messages:[{role:"user",content:text}]})}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error.message);return d.choices[0].message.content})}
-  if(c.type==="anthropic"){return fetch(c.url,{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:c.model,max_tokens:1024,messages:[{role:"user",content:text}]})}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error.message);return d.content[0].text})}
-  return Promise.reject(new Error("Unsupported"));
-}
-
-function sendMessage(){
-  var p=$("prompt"),text=p.value.trim();if(!text)return;
-  appendMsg("user",text);p.value="";
-  var th=appendMsg("ai","Đang suy nghĩ...");
-  var pr;
-  
-  if(currentGroup==="local"){
-    if(!webGPUSupported){
-      th.remove();
-      appendMsg("ai","⚠️ Máy chưa hỗ trợ WebGPU. Bật: chrome://flags → WebGPU → Enabled → Restart. Hoặc chuyển sang AI Đám Mây + dán API Key miễn phí tại aistudio.google.com/app/apikey");
-      return;
-    }
-    if(!engine){
-      th.remove();
-      appendMsg("ai","⏳ Mô hình đang tải, vui lòng đợi. Hoặc chọn mô hình nhỏ hơn (Qwen2.5 0.5B).");
-      return;
-    }
-    pr=engine.chat.completions.create({messages:[{role:"user",content:text}],temperature:.7,max_tokens:1024}).then(function(r){return r.choices[0].message.content});
-  }else{
-    var key=$("apiKey").value.trim();
-    if(!key){
-      th.remove();
-      appendMsg("ai","🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
-      return;
-    }
-    try{localStorage.setItem("v2f_api_key",key);}catch(e){}
-    pr=callCloudAI(text,key);
-  }
-  
-  pr.then(function(txt){th.remove();appendMsg("ai",txt,currentAI+" · "+new Date().toLocaleTimeString());lastAIResponse=txt})
-    .catch(function(e){th.remove();appendMsg("ai","Lỗi: "+e.message);console.error(e)});
-}
-
-function setup(){
-  try{
-    var savedKey=localStorage.getItem("v2f_api_key");
-    if(savedKey){$("apiKey").value=savedKey;}
-  }catch(e){}
-  
-  var lb=document.querySelectorAll(".lang-btn");
-  for(var i=0;i<lb.length;i++){lb[i].onclick=function(){
-    currentLang=this.getAttribute("data-lang");
-    var b=document.querySelectorAll(".lang-btn");
-    for(var k=0;k<b.length;k++)b[k].classList.remove("active");
-    this.classList.add("active");
-  }}
-  var gs=document.querySelectorAll(".ai-group");
-  for(var i=0;i<gs.length;i++){gs[i].onclick=function(){selectGroup(this.getAttribute("data-group"),this)}}
-  var ts=document.querySelectorAll(".ai-tab");
-  for(var i=0;i<ts.length;i++){ts[i].onclick=function(){selectAI(this.getAttribute("data-ai"),this)}}
-  $("sendBtn").onclick=sendMessage;
-  $("prompt").addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage()}});
-  $("clearBtn").onclick=function(){$("chatWindow").innerHTML
+<script type="module" src="./webllm-loader.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
