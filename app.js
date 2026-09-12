@@ -1,6 +1,5 @@
 (function(){
 'use strict';
-
 /* ============================================================
    SCROLL TEXT — VĂN BẢN TỰ TRÔI TỪ DƯỚI LÊN TRÊN (TELEPROMPTER)
    ============================================================ */
@@ -29,7 +28,7 @@ function startScrolling(){
   if(!twEl || !TEXT) return;
   stopScrolling();
 
-  // Render toàn bộ văn bản
+  // Render toàn bộ văn bản, giữ nguyên xuống dòng
   twEl.innerHTML = '';
   var content = document.createElement('div');
   content.className = 'scroll-content';
@@ -43,17 +42,18 @@ function startScrolling(){
   var maxH = Math.floor(window.innerHeight * 0.66);
   var startY = maxH;
   content.style.transform = 'translateY(' + startY + 'px)';
+  content.style.willChange = 'transform';
 
   var y = startY;
   var contentH = content.scrollHeight;
-  var endY = -contentH; // khi nội dung trôi hết lên trên
+  var endY = -contentH; // khi nào nội dung trôi hết lên trên
 
   function step(){
     y -= SPEED;
     content.style.transform = 'translateY(' + y + 'px)';
 
     if(y <= endY){
-      // Hết văn bản → dừng rồi chạy lại từ đầu
+      // Hết văn bản → dừng 1 nhịp rồi chạy lại từ đầu
       scrollTimer = setTimeout(function(){
         y = startY;
         content.style.transform = 'translateY(' + y + 'px)';
@@ -77,7 +77,7 @@ function stopScrolling(){
 /* Cập nhật lại chiều cao khi resize màn hình */
 window.addEventListener('resize', function(){
   setTypewriterHeight();
-  if(TEXT) startScrolling();
+  startScrolling(); // chạy lại cho khớp khung mới
 });
 
 setTypewriterHeight();
@@ -121,10 +121,11 @@ function loadContent(){
       }, 3000);
     });
 }
+
 loadContent();
 
 /* ============================================================
-   AI SETUP
+   AI SETUP (giữ nguyên phần còn lại)
    ============================================================ */
 var MODEL_MAP={
   "Llama-3.2-1B":"Llama-3.2-1B-Instruct-q4f16_1-MLC",
@@ -144,7 +145,6 @@ var group="local",ai="Llama-3.2-1B";
 var engine=null,loading=false,lastResp="",gpuOk=false,gpuStrong=false;
 
 function $(id){return document.getElementById(id)}
-
 function addMsg(type,text,meta){
   var w=$("chatWindow");
   if(!w) return null;
@@ -160,14 +160,12 @@ function addMsg(type,text,meta){
   w.scrollTop=w.scrollHeight;
   return d;
 }
-
 function notice(html,warn){
   var n=$("notice");
   if(!n) return;
   n.innerHTML=html;
   n.className="notice show"+(warn?" warn":"");
 }
-
 function checkGPU(){
   if(!navigator.gpu){
     gpuOk=false;gpuStrong=false;
@@ -187,7 +185,6 @@ function checkGPU(){
     return {ok:false,strong:false,reason:e.message};
   });
 }
-
 function setGroup(g,el){
   group=g;
   var gs=document.querySelectorAll(".ai-group");
@@ -199,7 +196,6 @@ function setGroup(g,el){
   var ft=document.querySelector('.ai-tab[data-group="'+g+'"]');
   if(ft)ft.click();
 }
-
 function setAI(name,el){
   ai=name;
   var ts=document.querySelectorAll(".ai-tab");
@@ -218,7 +214,6 @@ function setAI(name,el){
     addMsg("system","Đã chọn "+name+" (dán API Key vào ô bên trên)");
   }
 }
-
 function loadLLM(name){
   if(loading||!gpuStrong)return;
   var id=MODEL_MAP[name];if(!id)return;
@@ -255,7 +250,6 @@ function loadLLM(name){
     setTimeout(function(){if(!window.__webllm)err(new Error("Không tải được WebLLM sau 20s"))},20000);
   }
 }
-
 function callCloud(text,key){
   var c=CLOUD[ai];if(!c)return Promise.reject(new Error("Unknown AI"));
   if(c.type==="gemini"){
@@ -325,6 +319,7 @@ function send(){
       addMsg("ai","🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
       return;
     }
+    // Auto-save khi gửi
     try{localStorage.setItem("v2f_api_key",key);}catch(e){}
     pr=callCloud(text,key);
   }
@@ -346,7 +341,7 @@ function setup(){
     if(saved && $("apiKey")) $("apiKey").value=saved;
   }catch(e){}
   
-  // Nút lưu API Key
+  // Nút lưu API Key (nếu có id="saveKeyBtn")
   var saveBtn = $("saveKeyBtn");
   if(saveBtn){
     saveBtn.onclick = saveApiKey;
