@@ -2,7 +2,7 @@
 'use strict';
 
 /* ============================================================
-   TYPEWRITER — CHỈ HIỆN 1 ĐOẠN, CĂN GIỮA MÀN HÌNH
+   TYPEWRITER — CHẠY LIÊN TỤC, TỰ ĐẨY LÊN KHI CHẠM 2/3 KHUNG
    ============================================================ */
 
 var twEl = document.getElementById('typewriter');
@@ -10,10 +10,7 @@ var cursor = document.createElement('span');
 cursor.className = 'cursor';
 
 var TEXT = '';
-var paragraphs = [];
-var pIdx = 0;   // đoạn hiện tại
-var cIdx = 0;   // ký tự trong đoạn
-var currentEl = null;
+var idx = 0;
 var typing = false;
 
 function showMsg(html){
@@ -21,79 +18,49 @@ function showMsg(html){
   twEl.innerHTML = '<div style="text-align:center;padding:30px">' + html + '</div>';
 }
 
-/* Chia text thành các đoạn theo dấu xuống dòng kép */
-function splitParagraphs(txt){
-  var raw = txt.replace(/\r\n/g, '\n').split(/\n\s*\n/);
-  var out = [];
-  for(var i=0;i<raw.length;i++){
-    var s = raw[i].trim();
-    if(s.length > 0) out.push(s);
+/* Tự động đẩy chữ cũ lên khi chữ mới chạm ngưỡng 2/3 khung */
+function autoPush(){
+  if(!twEl) return;
+  var h = twEl.clientHeight;
+  var sh = twEl.scrollHeight;
+  // Nếu nội dung vượt quá 2/3 chiều cao khung → đẩy lên
+  var threshold = h * 0.66;
+  if(sh > threshold){
+    twEl.scrollTop = sh - threshold;
   }
-  return out;
 }
 
-/* Bắt đầu chạy từ đoạn đầu */
-function startAll(){
-  if(!twEl) return;
-  twEl.innerHTML = '';
-  pIdx = 0;
-  cIdx = 0;
+function startTyping(){
+  idx = 0;
   typing = true;
-  nextParagraph();
-}
-
-/* Hiện đoạn tiếp theo */
-function nextParagraph(){
-  if(!twEl) return;
-  if(pIdx >= paragraphs.length){
-    // Hết → chờ 5s → chạy lại
-    typing = false;
-    setTimeout(function(){
-      startAll();
-    }, 5000);
-    return;
+  if(twEl){
+    twEl.textContent = '';
+    twEl.scrollTop = 0;
   }
-
-  // Tạo div mới cho đoạn này
-  currentEl = document.createElement('div');
-  currentEl.className = 'para';
-  twEl.appendChild(currentEl);
-  cIdx = 0;
-  typeChar();
+  typeNext();
 }
 
-/* Gõ từng ký tự trong đoạn hiện tại */
-function typeChar(){
-  if(!currentEl || !typing) return;
-  var para = paragraphs[pIdx];
-
-  if(cIdx < para.length){
-    currentEl.textContent = para.substring(0, cIdx + 1);
-    currentEl.appendChild(cursor);
-    cIdx++;
-    var ch = para.charAt(cIdx - 1);
+function typeNext(){
+  if(!twEl || !typing) return;
+  if(idx < TEXT.length){
+    twEl.textContent = TEXT.substring(0, idx + 1);
+    twEl.appendChild(cursor);
+    idx++;
+    autoPush();
+    var ch = TEXT.charAt(idx - 1);
     var delay;
     if(ch === '\n') delay = 220;
     else if(ch === '.' || ch === '!' || ch === '?') delay = 140;
     else if(ch === '━' || ch === '✧' || ch === '✦' || ch === '═') delay = 20;
     else delay = 45;
-    setTimeout(typeChar, delay);
+    setTimeout(typeNext, delay);
   } else {
-    // Xong đoạn — chờ 2.5s rồi mờ dần, xoá, sang đoạn kế
-    cursor.remove();
     setTimeout(function(){
-      if(currentEl){
-        currentEl.classList.add('fade-out');
-      }
-      setTimeout(function(){
-        if(currentEl && currentEl.parentNode){
-          currentEl.parentNode.removeChild(currentEl);
-        }
-        currentEl = null;
-        pIdx++;
-        nextParagraph();
-      }, 700);
-    }, 2500);
+      idx = 0;
+      twEl.textContent = '';
+      twEl.scrollTop = 0;
+      typeNext();
+    }, 8000);
   }
 }
 
@@ -112,9 +79,8 @@ function loadContent(){
         throw new Error('File quá ngắn (' + clean.length + ' ký tự)');
       }
       TEXT = clean;
-      paragraphs = splitParagraphs(TEXT);
-      console.log('[V2F] Đã tải v2f-content.txt:', clean.length, 'ký tự,', paragraphs.length, 'đoạn');
-      startAll();
+      console.log('[V2F] Đã tải v2f-content.txt:', clean.length, 'ký tự');
+      startTyping();
     })
     .catch(function(err){
       console.error('[V2F] Lỗi tải file:', err);
@@ -124,8 +90,7 @@ function loadContent(){
           .then(function(txt){
             if(txt && txt.trim().length > 30){
               TEXT = txt.replace(/\r\n/g, '\n').trim();
-              paragraphs = splitParagraphs(TEXT);
-              startAll();
+              startTyping();
             } else {
               showMsg('<div style="color:#f87171;font-size:14px">⚠️ Không tải được v2f-content.txt</div>' +
                 '<div style="font-size:12px;color:#9db1c8;margin-top:12px">Vui lòng kiểm tra file đã upload lên GitHub:</div>' +
