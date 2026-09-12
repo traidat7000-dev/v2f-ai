@@ -3,33 +3,22 @@
 
 /* ============================================================
    ĐỌC FILE v2f-content.txt VÀ GÕ CHỮ CHẬM TRÊN TRANH
+   Không có fallback ngắn — chỉ chạy nội dung từ file .txt
    ============================================================ */
-
-var FALLBACK_TEXT =
-'🎨 TRANH Ý NIỆM TƯƠNG TÁC ĐẦU TIÊN TRÊN THẾ GIỚI\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'Kính thưa Quý Ngài,\n\n' +
-'Tôi là HỌA SĨ Lê Trương (Truongology) — Người sáng lập Hệ sinh thái Video To Future và là tác giả của cuốn sách "Valley or Abyss" đã được phát hành toàn cầu trên Amazon.\n\n' +
-'Một kiệt tác sẽ được ghi danh vào lịch sử nghệ thuật 100 năm tới.\n\n' +
-'✧ BỨC TRANH Ý NIỆM TƯƠNG TÁC TƯ DUY ✧\n' +
-'"THUNG LŨNG HAY VỰC SÂU"\n\n' +
-'3 CÂU HỎI NỀN TẢNG:\n' +
-'❶ Chúng ta đang ở đâu?\n' +
-'❷ Thế giới đó vận hành thế nào?\n' +
-'❸ Chúng ta muốn để lại tương lai gì?\n\n' +
-'📞 Zalo: 0865 660 958\n' +
-'📧 video2future.givevalue@gmail.com\n' +
-'🌐 videotofuture.blogspot.com\n\n' +
-'💫 "Chia sẻ yêu thương, cùng xây di sản" 💫';
 
 var twEl = document.getElementById('typewriter');
 var cursor = document.createElement('span');
 cursor.className = 'cursor';
 var idx = 0;
 var TEXT = '';
+var loaded = false;
 
-function startTyping(text){
-  TEXT = text;
+function showMsg(html){
+  if(!twEl) return;
+  twEl.innerHTML = html;
+}
+
+function startTyping(){
   idx = 0;
   if(twEl) twEl.textContent = '';
   typeNext();
@@ -45,7 +34,7 @@ function typeNext(){
     var delay;
     if(ch === '\n') delay = 260;
     else if(ch === '.' || ch === '!' || ch === '?') delay = 160;
-    else if(ch === '━' || ch === '✧' || ch === '✦') delay = 22;
+    else if(ch === '━' || ch === '✧' || ch === '✦' || ch === '═') delay = 22;
     else delay = 55;
     setTimeout(typeNext, delay);
   } else {
@@ -57,20 +46,54 @@ function typeNext(){
   }
 }
 
-/* Đọc file v2f-content.txt — nếu lỗi thì dùng fallback */
-fetch('./v2f-content.txt?t=' + Date.now())
-  .then(function(r){
-    if(!r.ok) throw new Error('Không đọc được file');
-    return r.text();
-  })
-  .then(function(txt){
-    var clean = (txt || '').trim();
-    if(clean.length < 50) throw new Error('File rỗng');
-    startTyping(clean);
-  })
-  .catch(function(){
-    startTyping(FALLBACK_TEXT);
-  });
+/* ============================================================
+   TẢI FILE v2f-content.txt
+   ============================================================ */
+function loadContent(){
+  // Cache-busting để không dùng bản cũ
+  fetch('./v2f-content.txt?v=' + Date.now())
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function(txt){
+      var clean = (txt || '').replace(/\r\n/g, '\n').trim();
+      if(clean.length < 30){
+        throw new Error('File quá ngắn hoặc rỗng (' + clean.length + ' ký tự)');
+      }
+      TEXT = clean;
+      loaded = true;
+      console.log('[V2F] Đã tải v2f-content.txt:', clean.length, 'ký tự');
+      startTyping();
+    })
+    .catch(function(err){
+      console.error('[V2F] Lỗi tải file:', err);
+      // Thử tải lại 1 lần nữa sau 3s (có thể GitHub chưa build xong)
+      setTimeout(function(){
+        fetch('./v2f-content.txt?retry=' + Date.now())
+          .then(function(r){return r.ok ? r.text() : null;})
+          .then(function(txt){
+            if(txt && txt.trim().length > 30){
+              TEXT = txt.replace(/\r\n/g, '\n').trim();
+              loaded = true;
+              startTyping();
+            } else {
+              showMsg('<span style="color:#f87171">⚠️ Không tải được v2f-content.txt</span><br><br>' +
+                '<span style="font-size:12px;color:#9db1c8">Vui lòng kiểm tra:</span><br>' +
+                '<span style="font-size:12px;color:#9db1c8">• File v2f-content.txt đã upload lên GitHub repo v2f-ai</span><br>' +
+                '<span style="font-size:12px;color:#9db1c8">• Tên file chính xác (không dấu cách)</span><br>' +
+                '<span style="font-size:12px;color:#9db1c8">• Đợi 1-2 phút cho GitHub build</span><br><br>' +
+                '<a href="https://traidat7000-dev.github.io/v2f-ai/v2f-content.txt" target="_blank" style="color:#65d9ff;font-size:12px">🔗 Kiểm tra file tại đây</a>');
+            }
+          })
+          .catch(function(){
+            showMsg('<span style="color:#f87171">⚠️ Không tải được file nội dung</span>');
+          });
+      }, 3000);
+    });
+}
+
+loadContent();
 
 /* ============================================================
    AI SETUP
