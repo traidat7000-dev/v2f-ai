@@ -2,7 +2,7 @@
 'use strict';
 
 /* ============================================================
-   TYPEWRITER — CHẠY LIÊN TỤC, TỰ ĐẨY LÊN KHI CHẠM 2/3 KHUNG
+   TYPEWRITER — CHẠY LIÊN TỤC, TỰ ĐẨY LÊN KHI CHẠM 2/3 MÀN HÌNH
    ============================================================ */
 var twEl = document.getElementById('typewriter');
 var cursor = document.createElement('span');
@@ -16,17 +16,19 @@ function showMsg(html){
   twEl.innerHTML = '<div style="text-align:center;padding:30px">' + html + '</div>';
 }
 
-/* Tự động đẩy chữ cũ lên khi chữ mới chạm ngưỡng 2/3 khung */
+/* Ép chiều cao tối đa = 2/3 màn hình */
+function setTypewriterHeight(){
+  if(!twEl) return;
+  var maxH = Math.floor(window.innerHeight * 0.66);
+  twEl.style.maxHeight = maxH + 'px';
+  twEl.style.overflowY = 'auto';
+  twEl.style.scrollBehavior = 'smooth';
+}
+
+/* Tự động đẩy chữ lên khi vượt 2/3 */
 function autoPush(){
   if(!twEl) return;
-  var h = twEl.clientHeight;
-  var sh = twEl.scrollHeight;
-  var threshold = h * 0.66;          // 2/3 chiều cao khung
-
-  if(sh > threshold){
-    // Đẩy sao cho phần mới nhất luôn nằm trong 2/3 khung dưới
-    twEl.scrollTop = sh - threshold;
-  }
+  twEl.scrollTop = twEl.scrollHeight;
 }
 
 function startTyping(){
@@ -46,7 +48,6 @@ function typeNext(){
     twEl.appendChild(cursor);
     idx++;
 
-    // Dùng requestAnimationFrame để autoPush mượt hơn
     requestAnimationFrame(autoPush);
 
     var ch = TEXT.charAt(idx - 1);
@@ -65,6 +66,10 @@ function typeNext(){
     }, 8000);
   }
 }
+
+/* Cập nhật lại chiều cao khi resize màn hình */
+window.addEventListener('resize', setTypewriterHeight);
+setTypewriterHeight();
 
 /* ============================================================
    TẢI FILE v2f-content.txt
