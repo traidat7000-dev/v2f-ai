@@ -29,7 +29,7 @@ function startScrolling(){
   if(!twEl || !TEXT) return;
   stopScrolling();
 
-  // Render toàn bộ văn bản, giữ nguyên xuống dòng
+  // Render toàn bộ văn bản
   twEl.innerHTML = '';
   var content = document.createElement('div');
   content.className = 'scroll-content';
@@ -46,14 +46,14 @@ function startScrolling(){
 
   var y = startY;
   var contentH = content.scrollHeight;
-  var endY = -contentH; // khi nào nội dung trôi hết lên trên
+  var endY = -contentH; // khi nội dung trôi hết lên trên
 
   function step(){
     y -= SPEED;
     content.style.transform = 'translateY(' + y + 'px)';
 
     if(y <= endY){
-      // Hết văn bản → dừng 1 nhịp rồi chạy lại từ đầu
+      // Hết văn bản → dừng rồi chạy lại từ đầu
       scrollTimer = setTimeout(function(){
         y = startY;
         content.style.transform = 'translateY(' + y + 'px)';
@@ -77,8 +77,9 @@ function stopScrolling(){
 /* Cập nhật lại chiều cao khi resize màn hình */
 window.addEventListener('resize', function(){
   setTypewriterHeight();
-  startScrolling(); // chạy lại cho khớp khung mới
+  if(TEXT) startScrolling();
 });
+
 setTypewriterHeight();
 
 /* ============================================================
@@ -324,7 +325,6 @@ function send(){
       addMsg("ai","🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
       return;
     }
-    // Auto-save khi gửi
     try{localStorage.setItem("v2f_api_key",key);}catch(e){}
     pr=callCloud(text,key);
   }
@@ -346,7 +346,7 @@ function setup(){
     if(saved && $("apiKey")) $("apiKey").value=saved;
   }catch(e){}
   
-  // Nút lưu API Key (nếu có id="saveKeyBtn")
+  // Nút lưu API Key
   var saveBtn = $("saveKeyBtn");
   if(saveBtn){
     saveBtn.onclick = saveApiKey;
