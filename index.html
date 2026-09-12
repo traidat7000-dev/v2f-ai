@@ -11,19 +11,18 @@ html,body{margin:0;padding:0;height:100vh;overflow:hidden;font-family:Inter,syst
 
 .layout{display:flex;height:100vh;width:100%}
 
-/* ============ CỘT TRÁI: CHAT ============ */
-.left-panel{width:55%;min-width:340px;height:100vh;padding:18px 16px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(135deg,rgba(7,17,31,.99),rgba(15,30,50,.99));overflow-y:auto;border-right:2px solid var(--accent)}
+.left-panel{width:55%;min-width:340px;height:100vh;padding:16px 14px;display:flex;flex-direction:column;gap:9px;background:linear-gradient(135deg,rgba(7,17,31,.99),rgba(15,30,50,.99));overflow-y:auto;border-right:2px solid var(--accent)}
 
 .brand{display:flex;align-items:center;gap:10px}
-.brand .logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#07111f;font-weight:900;font-size:16px;display:grid;place-items:center;flex-shrink:0}
-.brand h1{margin:0;font-size:20px;font-weight:700;letter-spacing:-.5px}
+.brand .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#07111f;font-weight:900;font-size:15px;display:grid;place-items:center;flex-shrink:0}
+.brand h1{margin:0;font-size:19px;font-weight:700}
 
-.guide{background:rgba(101,217,255,.08);border:1px solid rgba(101,217,255,.3);border-radius:10px;padding:8px 12px;font-size:11.5px;line-height:1.55}
+.guide{background:rgba(101,217,255,.08);border:1px solid rgba(101,217,255,.3);border-radius:9px;padding:7px 11px;font-size:11px;line-height:1.5}
 .guide strong{color:var(--accent)}
-.guide .step{display:inline-block;background:var(--accent);color:#07111f;font-weight:700;border-radius:50%;width:15px;height:15px;text-align:center;line-height:15px;font-size:9.5px;margin-right:4px}
-.guide a{color:var(--accent);text-decoration:underline}
+.guide .step{display:inline-block;background:var(--accent);color:#07111f;font-weight:700;border-radius:50%;width:14px;height:14px;text-align:center;line-height:14px;font-size:9px;margin-right:4px}
+.guide a{color:var(--accent)}
 
-.notice{display:none;background:rgba(101,217,255,.12);border:1px solid var(--accent);border-radius:9px;padding:9px 12px;font-size:11.5px;line-height:1.5}
+.notice{display:none;background:rgba(101,217,255,.12);border:1px solid var(--accent);border-radius:9px;padding:8px 11px;font-size:11px;line-height:1.5}
 .notice.show{display:block}
 .notice.warn{background:rgba(251,191,36,.12);border-color:var(--warning)}
 .notice strong{color:var(--accent)}
@@ -31,41 +30,41 @@ html,body{margin:0;padding:0;height:100vh;overflow:hidden;font-family:Inter,syst
 .notice a{color:var(--accent)}
 
 .lang-bar{display:flex;gap:4px;flex-wrap:wrap}
-.lang-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:5px;padding:2px 8px;color:var(--muted);font-size:10px;cursor:pointer;transition:.2s}
+.lang-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:5px;padding:2px 7px;color:var(--muted);font-size:9.5px;cursor:pointer;transition:.2s}
 .lang-btn.active,.lang-btn:hover{background:rgba(101,217,255,.2);color:#fff;border-color:var(--accent)}
 
-.ai-group-bar{display:flex;gap:5px;flex-wrap:wrap}
-.ai-group{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;color:var(--muted);font-size:11px;cursor:pointer;transition:.2s;font-weight:600;flex:1;text-align:center}
+.ai-group-bar{display:flex;gap:4px;flex-wrap:wrap}
+.ai-group{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 9px;color:var(--muted);font-size:10.5px;cursor:pointer;transition:.2s;font-weight:600;flex:1;text-align:center}
 .ai-group.active,.ai-group:hover{background:rgba(167,139,250,.2);border-color:var(--accent2);color:#fff}
 
 .ai-selector-bar{display:flex;gap:4px;flex-wrap:wrap}
-.ai-tab{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:5px 9px;color:var(--muted);font-size:10.5px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:3px}
+.ai-tab{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:4px 8px;color:var(--muted);font-size:10px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:3px}
 .ai-tab.active,.ai-tab:hover{background:rgba(101,217,255,.2);border-color:var(--accent);color:#fff}
-.ai-tab .badge{font-size:8px;padding:1px 4px;border-radius:4px;background:var(--success);color:#07111f;font-weight:700}
+.ai-tab .badge{font-size:7.5px;padding:1px 4px;border-radius:4px;background:var(--success);color:#07111f;font-weight:700}
 .ai-tab .badge.cloud{background:var(--warning)}
 
-.model-status{display:none;background:rgba(5,13,24,.9);border:1px solid var(--accent);border-radius:9px;padding:9px 12px;font-size:11.5px}
+.model-status{display:none;background:rgba(5,13,24,.9);border:1px solid var(--accent);border-radius:9px;padding:8px 11px;font-size:11px}
 .model-status.show{display:block}
 .progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:5px;overflow:hidden}
 .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .3s ease}
 
-.api-key-box{background:rgba(5,13,24,.7);border:1px dashed var(--accent);border-radius:9px;padding:7px 11px;display:flex;gap:8px;align-items:center;font-size:11.5px}
+.api-key-box{background:rgba(5,13,24,.7);border:1px dashed var(--accent);border-radius:9px;padding:6px 10px;display:flex;gap:8px;align-items:center;font-size:11px}
 .api-key-box.hidden{display:none}
-.api-key-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:11.5px;font-family:inherit}
-.api-key-box .save-hint{font-size:9.5px;color:var(--muted);white-space:nowrap}
+.api-key-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:11px;font-family:inherit}
+.api-key-box .save-hint{font-size:9px;color:var(--muted);white-space:nowrap}
 
-.chat-window{flex:1;min-height:180px;overflow-y:auto;background:rgba(5,13,24,.6);border:1px solid var(--panel-border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:9px;scroll-behavior:smooth}
-.msg{padding:8px 12px;border-radius:10px;max-width:90%;font-size:13px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
+.chat-window{flex:1;min-height:150px;overflow-y:auto;background:rgba(5,13,24,.6);border:1px solid var(--panel-border);border-radius:11px;padding:11px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+.msg{padding:7px 11px;border-radius:9px;max-width:90%;font-size:12.5px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
 .msg.user{background:rgba(101,217,255,.25);border:1px solid var(--accent);align-self:flex-end;color:#fff}
 .msg.ai{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);align-self:flex-start;color:var(--text)}
-.msg.system{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);align-self:center;color:var(--muted);font-size:11px;text-align:center;max-width:90%}
-.msg .meta{font-size:9.5px;color:var(--muted);margin-top:4px;display:block}
+.msg.system{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);align-self:center;color:var(--muted);font-size:10.5px;text-align:center;max-width:90%}
+.msg .meta{font-size:9px;color:var(--muted);margin-top:4px;display:block}
 
-.input-box{background:rgba(5,13,24,.85);border:1px solid var(--panel-border);border-radius:12px;padding:9px}
-textarea{width:100%;height:45px;background:transparent;border:none;outline:none;color:var(--text);font-size:13px;resize:none;font-family:inherit}
+.input-box{background:rgba(5,13,24,.85);border:1px solid var(--panel-border);border-radius:11px;padding:8px}
+textarea{width:100%;height:42px;background:transparent;border:none;outline:none;color:var(--text);font-size:12.5px;resize:none;font-family:inherit}
 .tools-bar{display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:5px}
 .tools-left{display:flex;gap:5px;flex-wrap:wrap}
-.btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:7px;padding:5px 10px;cursor:pointer;font-size:11px;display:inline-flex;align-items:center;gap:3px;transition:.2s;font-family:inherit}
+.btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:7px;padding:4px 9px;cursor:pointer;font-size:10.5px;display:inline-flex;align-items:center;gap:3px;transition:.2s;font-family:inherit}
 .btn:hover{background:rgba(255,255,255,.18);border-color:var(--accent)}
 .btn.primary{background:linear-gradient(135deg,#1c7898,#6553a8);border:none;font-weight:600}
 .btn.primary:hover{opacity:.9}
@@ -73,64 +72,53 @@ textarea{width:100%;height:45px;background:transparent;border:none;outline:none;
 .btn:disabled{opacity:.5;cursor:not-allowed}
 @keyframes pulse{0%{opacity:1}50%{opacity:.5}100%{opacity:1}}
 
-.footer-author{text-align:center;font-size:10.5px;color:var(--muted);line-height:1.5}
+.footer-author{text-align:center;font-size:10px;color:var(--muted);line-height:1.4}
 .footer-author strong{color:var(--accent)}
 .chat-window::-webkit-scrollbar,.left-panel::-webkit-scrollbar{width:5px}
-.chat-window::-webkit-scrollbar-track,.left-panel::-webkit-scrollbar-track{background:transparent}
 .chat-window::-webkit-scrollbar-thumb,.left-panel::-webkit-scrollbar-thumb{background:rgba(101,217,255,.3);border-radius:3px}
 
-/* ============ CỘT PHẢI: TRANH + CHỮ CHẠY ============ */
 .right-panel{width:45%;position:relative;height:100vh;overflow:hidden;background:url('Tranhtang.jpg') center/cover no-repeat;background-color:#1a0d0d}
 
-.right-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,17,31,.75) 0%,rgba(7,17,31,.35) 50%,rgba(7,17,31,.85) 100%);z-index:1}
+.right-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,17,31,.85) 0%,rgba(7,17,31,.55) 50%,rgba(7,17,31,.9) 100%);z-index:1}
 
-/* Chữ chạy kiểu typewriter che kín bức tranh */
-.typewriter-wrap{position:absolute;inset:0;z-index:2;padding:40px 30px;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.typewriter{font-family:'Courier New',Courier,monospace;font-size:15px;line-height:1.8;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,1),0 0 25px rgba(101,217,255,.5);white-space:pre-wrap;word-wrap:break-word;max-width:100%;max-height:100%;overflow:hidden;letter-spacing:.3px}
-.typewriter .cursor{display:inline-block;width:9px;height:1.1em;background:var(--accent);margin-left:2px;vertical-align:text-bottom;animation:blink .8s infinite}
+.typewriter-wrap{position:absolute;inset:0;z-index:2;padding:30px 26px;display:flex;align-items:flex-start;justify-content:center;pointer-events:none;overflow:hidden}
+.typewriter{font-family:'Courier New',Courier,monospace;font-size:14px;line-height:1.7;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,1),0 0 20px rgba(101,217,255,.5);white-space:pre-wrap;word-wrap:break-word;max-width:100%;letter-spacing:.3px}
+.typewriter .cursor{display:inline-block;width:8px;height:1em;background:var(--accent);margin-left:2px;vertical-align:text-bottom;animation:blink .8s infinite}
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 
-.typewriter .hl{color:var(--accent);font-weight:700}
-.typewriter .hl2{color:var(--accent2);font-weight:700}
-.typewriter .num{color:var(--warning);font-weight:700}
-
-/* Responsive */
 @media(max-width:900px){
   .layout{flex-direction:column}
-  .left-panel{width:100%;height:60vh;min-height:400px;border-right:none;border-bottom:2px solid var(--accent);padding:12px}
+  .left-panel{width:100%;height:60vh;min-height:400px;border-right:none;border-bottom:2px solid var(--accent);padding:11px}
   .right-panel{width:100%;height:40vh}
-  .brand h1{font-size:17px}
-  .brand .logo{width:32px;height:32px;font-size:14px}
-  .guide{font-size:10.5px;padding:6px 10px}
-  .typewriter-wrap{padding:16px 14px}
-  .typewriter{font-size:11.5px;line-height:1.55}
-  .chat-window{min-height:120px}
-  textarea{height:38px;font-size:12px}
+  .brand h1{font-size:16px}
+  .brand .logo{width:30px;height:30px;font-size:13px}
+  .guide{font-size:10px;padding:6px 9px}
+  .typewriter-wrap{padding:14px 12px}
+  .typewriter{font-size:11px;line-height:1.55}
+  .chat-window{min-height:100px}
+  textarea{height:36px;font-size:12px}
 }
-
 @media(max-width:500px){
-  .left-panel{height:62vh;padding:10px;gap:7px}
+  .left-panel{height:62vh;padding:8px;gap:6px}
   .right-panel{height:38vh}
-  .lang-btn{padding:2px 6px;font-size:9px}
-  .ai-group{padding:4px 8px;font-size:10px}
-  .ai-tab{padding:4px 7px;font-size:9.5px}
-  .btn{padding:4px 8px;font-size:10px}
-  .msg{font-size:12px;padding:7px 10px}
-  .typewriter{font-size:10.5px}
+  .lang-btn{padding:2px 5px;font-size:8.5px}
+  .ai-group{padding:4px 7px;font-size:9.5px}
+  .ai-tab{padding:3px 6px;font-size:9px}
+  .btn{padding:3px 7px;font-size:9.5px}
+  .msg{font-size:11.5px;padding:6px 9px}
+  .typewriter{font-size:10px}
 }
 </style>
 </head>
 <body>
 
 <div class="layout">
-
-  <!-- ============ CỘT TRÁI: CHAT ============ -->
   <div class="left-panel">
     <div class="brand"><div class="logo">V2F</div><h1>V2F AI Hub</h1></div>
 
     <div class="guide">
-      <div><span class="step">1</span><strong>WebGPU (Chrome/Edge mới):</strong> chọn <strong>⚡ AI Siêu Nhẹ</strong> → chat miễn phí.</div>
-      <div><span class="step">2</span><strong>Không WebGPU:</strong> chọn <strong>☁️ AI Đám Mây</strong> → dán API Key Gemini.</div>
+      <div><span class="step">1</span><strong>WebGPU (Chrome/Edge mới):</strong> chọn <strong>⚡ AI Siêu Nhẹ</strong>.</div>
+      <div><span class="step">2</span><strong>Không WebGPU:</strong> chọn <strong>☁️ AI Đám Mây</strong> + dán API Key.</div>
       <div><span class="step">3</span><strong>Lấy Key 30s:</strong> <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a></div>
     </div>
 
@@ -189,18 +177,14 @@ textarea{width:100%;height:45px;background:transparent;border:none;outline:none;
       </div>
     </div>
 
-    <div class="footer-author">
-      Họa sĩ <strong>Lê Trương</strong> · Video To Future
-    </div>
+    <div class="footer-author">Họa sĩ <strong>Lê Trương</strong> · Video To Future</div>
   </div>
 
-  <!-- ============ CỘT PHẢI: TRANH + CHỮ CHẠY KIỂU TYPEWRITER ============ -->
   <div class="right-panel">
     <div class="typewriter-wrap">
       <div class="typewriter" id="typewriter"></div>
     </div>
   </div>
-
 </div>
 
 <script type="module">
@@ -210,67 +194,77 @@ window.dispatchEvent(new Event("webllm-ready"));
 </script>
 
 <script>
-//<![CDATA[
 (function(){
 'use strict';
 
-/* ============ NỘI DUNG CHỮ CHẠY BÊN PHẢI ============ */
-var TYPEWRITER_TEXT = 
-'🎨 TRANH Ý NIỆM TƯƠNG TÁC ĐẦU TIÊN TRÊN THẾ GIỚI\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+/* ===== CHỮ CHẠY BÊN PHẢI ===== */
+var TYPEWRITER_TEXT =
+'🎨 TRANH Ý NIỆM TƯƠNG TÁC\nĐẦU TIÊN TRÊN THẾ GIỚI\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
 '✧ THUNG LŨNG HAY VỰC SÂU ✧\n' +
 'Tranh ý niệm tương tác tư duy\n' +
 'Bản đồ tư duy trước khi hành động\n\n' +
-'Tác giả: HỌA SĨ LÊ TRƯƠNG (Truongology)\n' +
+'Tác giả: HỌA SĨ LÊ TRƯƠNG\n' +
+'(Truongology)\n' +
 'Năm sáng tác: 2026\n' +
 'Chất liệu: Bút lông dầu trên giấy A3\n' +
-'Độc bản duy nhất · Bản quyền 11375/2025\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'"Có những tác phẩm nghệ thuật chỉ để ngắm nhìn.\n' +
-'Và có những tác phẩm sinh ra để đánh thức —\n' +
-'đánh thức những câu hỏi đã ngủ quên\n' +
-'trong sâu thẳm tâm hồn mỗi con người."\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'Độc bản duy nhất\n' +
+'Bản quyền 11375/2025\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'"Có những tác phẩm nghệ thuật\n' +
+'chỉ để ngắm nhìn. Và có những\n' +
+'tác phẩm sinh ra để đánh thức —\n' +
+'đánh thức những câu hỏi đã ngủ\n' +
+'quên trong sâu thẳm tâm hồn\n' +
+'mỗi con người."\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
 '🌟 BA CÂU HỎI NỀN TẢNG 🌟\n\n' +
 '❶ Chúng ta đang ở đâu?\n' +
 '   Where are we?\n\n' +
 '❷ Thế giới đó vận hành thế nào?\n' +
 '   How does that world operate?\n\n' +
-'❸ Chúng ta muốn để lại tương lai gì?\n' +
-'   What future do we want to leave behind?\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'🏆 BA LẦN ĐẦU TIÊN TRONG 1000 NĂM\n\n' +
-'✦ Tranh ý niệm tương tác đầu tiên trên thế giới\n' +
-'✦ Hệ sinh thái Tranh - Sách - Phần mềm đầu tiên\n' +
-'✦ Họa sĩ đầu tiên đăng ký bản quyền Video To Future\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'❸ Chúng ta muốn để lại\n' +
+'   tương lai gì?\n' +
+'   What future do we want\n' +
+'   to leave behind?\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'🏆 BA LẦN ĐẦU TIÊN\nTRONG 1000 NĂM\n\n' +
+'✦ Tranh ý niệm tương tác\n' +
+'  đầu tiên trên thế giới\n\n' +
+'✦ Hệ sinh thái Tranh - Sách\n' +
+'  - Phần mềm đầu tiên\n\n' +
+'✦ Họa sĩ đầu tiên đăng ký\n' +
+'  bản quyền Video To Future\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
 '📖 SÁCH: "VALLEY OR ABYSS"\n' +
 'Phát hành 5 ngôn ngữ trên Amazon:\n' +
-'English · 日本語 · 中文 · हिन्दी · Tiếng Việt\n\n' +
+'English · 日本語 · 中文\n' +
+'हिन्दी · Tiếng Việt\n\n' +
 '💻 PHẦN MỀM VIDEO TO FUTURE\n' +
-'Gửi khoảnh khắc đẹp vượt qua ranh giới thời gian\n' +
-'đến với tương lai.\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'Gửi khoảnh khắc đẹp vượt qua\n' +
+'ranh giới thời gian đến tương lai.\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
 '🌏 TẦM NHÌN TOÀN CẦU\n' +
-'193 quốc gia thành viên Liên Hợp Quốc\n\n' +
-'"Nghệ thuật không chỉ dành cho những người\n' +
-'có điều kiện, mà phải là món quà tinh thần\n' +
-'cho mọi tâm hồn."\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'193 quốc gia thành viên\n' +
+'Liên Hợp Quốc\n\n' +
+'"Nghệ thuật không chỉ dành cho\n' +
+'những người có điều kiện, mà\n' +
+'phải là món quà tinh thần cho\n' +
+'mọi tâm hồn."\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
 '✍️ HỌA SĨ LÊ TRƯƠNG\n' +
 'Kiến trúc sư của Nhân cách\n' +
 'Nghệ sĩ Bản đồ Tư duy\n' +
 'Nhà thơ của Tương lai\n\n' +
-'Zalo: 0865 660 958\n' +
-'Email: video2future.givevalue@gmail.com\n' +
-'Blog: videotofuture.blogspot.com\n' +
-'Amazon: amazon.com/dp/B0GRVVJS2W\n' +
-'Trưng bày: B1 Hoàng Anh Gold House, TP.HCM\n\n' +
-'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-'💫 "Chia sẻ yêu thương, cùng xây di sản" 💫\n\n' +
+'📞 Zalo: 0865 660 958\n' +
+'📧 video2future.givevalue@gmail.com\n' +
+'🌐 videotofuture.blogspot.com\n' +
+'📚 amazon.com/dp/B0GRVVJS2W\n' +
+'📍 B1 Hoàng Anh Gold House, TP.HCM\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'💫 "Chia sẻ yêu thương,\ncùng xây di sản" 💫\n\n' +
 '🎨 Video To Future · Truongology 🎨';
 
-/* ============ TYPEWRITER EFFECT ============ */
 var typewriterEl = document.getElementById('typewriter');
 var typeIdx = 0;
 var cursorEl = document.createElement('span');
@@ -281,12 +275,10 @@ function typeNext(){
     typewriterEl.textContent = TYPEWRITER_TEXT.substring(0, typeIdx + 1);
     typewriterEl.appendChild(cursorEl);
     typeIdx++;
-    // Tốc độ gõ: nhanh hơn với ký tự thường, chậm hơn với xuống dòng
     var ch = TYPEWRITER_TEXT.charAt(typeIdx - 1);
-    var delay = ch === '\n' ? 120 : (ch === '━' ? 15 : 35);
+    var delay = ch === '\n' ? 100 : (ch === '━' ? 8 : 30);
     setTimeout(typeNext, delay);
   } else {
-    // Xong → chờ 5s rồi chạy lại
     setTimeout(function(){
       typeIdx = 0;
       typewriterEl.textContent = '';
@@ -296,7 +288,7 @@ function typeNext(){
 }
 typeNext();
 
-/* ============ AI SETUP ============ */
+/* ===== AI SETUP ===== */
 var MODEL_MAP={
   "Llama-3.2-1B":"Llama-3.2-1B-Instruct-q4f16_1-MLC",
   "Qwen2.5-0.5B":"Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
@@ -351,13 +343,13 @@ function selectAI(name,el){
   if(el)el.classList.add("active");
   if(currentGroup==="local"){
     if(webGPUSupported){
-      appendMsg("system","Đã chọn "+name+" — miễn phí, không cần API Key");
+      appendMsg("system","Đã chọn "+name+" — miễn phí");
       loadWebLLM(name);
     }else{
-      appendMsg("system","Máy bạn chưa hỗ trợ WebGPU — vui lòng chọn AI Đám Mây hoặc bật WebGPU.");
+      appendMsg("system","Máy chưa hỗ trợ WebGPU — vui lòng chọn AI Đám Mây hoặc bật WebGPU.");
     }
   }else{
-    appendMsg("system","Đã chọn "+name+" (dán API Key vào ô bên trên để dùng)");
+    appendMsg("system","Đã chọn "+name+" (dán API Key vào ô bên trên)");
   }
 }
 
@@ -417,7 +409,7 @@ function sendMessage(){
   if(currentGroup==="local"){
     if(!webGPUSupported){
       th.remove();
-      appendMsg("ai","⚠️ Máy bạn chưa hỗ trợ WebGPU. Vui lòng:\n1. Bật WebGPU: chrome://flags → WebGPU → Enabled → Restart\n2. Hoặc chuyển sang tab AI Đám Mây + dán API Key miễn phí tại aistudio.google.com/app/apikey");
+      appendMsg("ai","⚠️ Máy chưa hỗ trợ WebGPU. Bật: chrome://flags → WebGPU → Enabled → Restart. Hoặc chuyển sang AI Đám Mây + dán API Key miễn phí tại aistudio.google.com/app/apikey");
       return;
     }
     if(!engine){
@@ -433,4 +425,31 @@ function sendMessage(){
       appendMsg("ai","🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
       return;
     }
-    try{localStorage.setItem("v2f
+    try{localStorage.setItem("v2f_api_key",key);}catch(e){}
+    pr=callCloudAI(text,key);
+  }
+  
+  pr.then(function(txt){th.remove();appendMsg("ai",txt,currentAI+" · "+new Date().toLocaleTimeString());lastAIResponse=txt})
+    .catch(function(e){th.remove();appendMsg("ai","Lỗi: "+e.message);console.error(e)});
+}
+
+function setup(){
+  try{
+    var savedKey=localStorage.getItem("v2f_api_key");
+    if(savedKey){$("apiKey").value=savedKey;}
+  }catch(e){}
+  
+  var lb=document.querySelectorAll(".lang-btn");
+  for(var i=0;i<lb.length;i++){lb[i].onclick=function(){
+    currentLang=this.getAttribute("data-lang");
+    var b=document.querySelectorAll(".lang-btn");
+    for(var k=0;k<b.length;k++)b[k].classList.remove("active");
+    this.classList.add("active");
+  }}
+  var gs=document.querySelectorAll(".ai-group");
+  for(var i=0;i<gs.length;i++){gs[i].onclick=function(){selectGroup(this.getAttribute("data-group"),this)}}
+  var ts=document.querySelectorAll(".ai-tab");
+  for(var i=0;i<ts.length;i++){ts[i].onclick=function(){selectAI(this.getAttribute("data-ai"),this)}}
+  $("sendBtn").onclick=sendMessage;
+  $("prompt").addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage()}});
+  $("clearBtn").onclick=function(){$("chatWindow").innerHTML
