@@ -23,12 +23,17 @@ function setTypewriterHeight(){
   twEl.style.maxHeight = maxH + 'px';
   twEl.style.overflowY = 'auto';
   twEl.style.scrollBehavior = 'smooth';
+  twEl.style.position = 'relative';
 }
 
-/* Tự động đẩy chữ lên khi vượt 2/3 */
+/* Tự động đẩy chữ lên khi vượt 2/3 — dùng scrollHeight thực tế */
 function autoPush(){
   if(!twEl) return;
-  twEl.scrollTop = twEl.scrollHeight;
+  var maxH = Math.floor(window.innerHeight * 0.66);
+  // Chỉ đẩy khi nội dung vượt quá 2/3 màn hình
+  if(twEl.scrollHeight > maxH){
+    twEl.scrollTop = twEl.scrollHeight;
+  }
 }
 
 function startTyping(){
@@ -48,6 +53,7 @@ function typeNext(){
     twEl.appendChild(cursor);
     idx++;
 
+    // Đẩy lên ngay sau khi render
     requestAnimationFrame(autoPush);
 
     var ch = TEXT.charAt(idx - 1);
@@ -68,7 +74,10 @@ function typeNext(){
 }
 
 /* Cập nhật lại chiều cao khi resize màn hình */
-window.addEventListener('resize', setTypewriterHeight);
+window.addEventListener('resize', function(){
+  setTypewriterHeight();
+  autoPush();
+});
 setTypewriterHeight();
 
 /* ============================================================
