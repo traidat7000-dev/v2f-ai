@@ -2,60 +2,98 @@
 'use strict';
 
 /* ============================================================
-   ĐỌC FILE v2f-content.txt VÀ GÕ CHỮ CHẬM — TỰ ĐỘNG CUỘN
+   TYPEWRITER — CHỈ HIỆN 1 ĐOẠN, CĂN GIỮA MÀN HÌNH
    ============================================================ */
 
 var twEl = document.getElementById('typewriter');
 var cursor = document.createElement('span');
 cursor.className = 'cursor';
-var idx = 0;
+
 var TEXT = '';
-var loaded = false;
-var autoScroll = true; // cho phép tự cuộn
+var paragraphs = [];
+var pIdx = 0;   // đoạn hiện tại
+var cIdx = 0;   // ký tự trong đoạn
+var currentEl = null;
+var typing = false;
 
 function showMsg(html){
   if(!twEl) return;
-  twEl.innerHTML = html;
+  twEl.innerHTML = '<div style="text-align:center;padding:30px">' + html + '</div>';
 }
 
-/* Tự động cuộn để chữ mới nhất luôn hiện trong khung */
-function scrollToCursor(){
-  if(!twEl) return;
-  // Cuộn xuống cuối — chữ mới luôn trong tầm mắt
-  twEl.scrollTop = twEl.scrollHeight;
-}
-
-function startTyping(){
-  idx = 0;
-  if(twEl){
-    twEl.textContent = '';
-    twEl.scrollTop = 0;
+/* Chia text thành các đoạn theo dấu xuống dòng kép */
+function splitParagraphs(txt){
+  var raw = txt.replace(/\r\n/g, '\n').split(/\n\s*\n/);
+  var out = [];
+  for(var i=0;i<raw.length;i++){
+    var s = raw[i].trim();
+    if(s.length > 0) out.push(s);
   }
-  typeNext();
+  return out;
 }
 
-function typeNext(){
+/* Bắt đầu chạy từ đoạn đầu */
+function startAll(){
   if(!twEl) return;
-  if(idx < TEXT.length){
-    twEl.textContent = TEXT.substring(0, idx + 1);
-    twEl.appendChild(cursor);
-    idx++;
-    // Tự động cuộn xuống sau mỗi ký tự
-    scrollToCursor();
-    var ch = TEXT.charAt(idx - 1);
-    var delay;
-    if(ch === '\n') delay = 260;
-    else if(ch === '.' || ch === '!' || ch === '?') delay = 160;
-    else if(ch === '━' || ch === '✧' || ch === '✦' || ch === '═') delay = 22;
-    else delay = 55;
-    setTimeout(typeNext, delay);
-  } else {
+  twEl.innerHTML = '';
+  pIdx = 0;
+  cIdx = 0;
+  typing = true;
+  nextParagraph();
+}
+
+/* Hiện đoạn tiếp theo */
+function nextParagraph(){
+  if(!twEl) return;
+  if(pIdx >= paragraphs.length){
+    // Hết → chờ 5s → chạy lại
+    typing = false;
     setTimeout(function(){
-      idx = 0;
-      twEl.textContent = '';
-      twEl.scrollTop = 0;
-      typeNext();
-    }, 8000);
+      startAll();
+    }, 5000);
+    return;
+  }
+
+  // Tạo div mới cho đoạn này
+  currentEl = document.createElement('div');
+  currentEl.className = 'para';
+  twEl.appendChild(currentEl);
+  cIdx = 0;
+  typeChar();
+}
+
+/* Gõ từng ký tự trong đoạn hiện tại */
+function typeChar(){
+  if(!currentEl || !typing) return;
+  var para = paragraphs[pIdx];
+
+  if(cIdx < para.length){
+    currentEl.textContent = para.substring(0, cIdx + 1);
+    currentEl.appendChild(cursor);
+    cIdx++;
+    var ch = para.charAt(cIdx - 1);
+    var delay;
+    if(ch === '\n') delay = 220;
+    else if(ch === '.' || ch === '!' || ch === '?') delay = 140;
+    else if(ch === '━' || ch === '✧' || ch === '✦' || ch === '═') delay = 20;
+    else delay = 45;
+    setTimeout(typeChar, delay);
+  } else {
+    // Xong đoạn — chờ 2.5s rồi mờ dần, xoá, sang đoạn kế
+    cursor.remove();
+    setTimeout(function(){
+      if(currentEl){
+        currentEl.classList.add('fade-out');
+      }
+      setTimeout(function(){
+        if(currentEl && currentEl.parentNode){
+          currentEl.parentNode.removeChild(currentEl);
+        }
+        currentEl = null;
+        pIdx++;
+        nextParagraph();
+      }, 700);
+    }, 2500);
   }
 }
 
@@ -74,9 +112,9 @@ function loadContent(){
         throw new Error('File quá ngắn (' + clean.length + ' ký tự)');
       }
       TEXT = clean;
-      loaded = true;
-      console.log('[V2F] Đã tải v2f-content.txt:', clean.length, 'ký tự');
-      startTyping();
+      paragraphs = splitParagraphs(TEXT);
+      console.log('[V2F] Đã tải v2f-content.txt:', clean.length, 'ký tự,', paragraphs.length, 'đoạn');
+      startAll();
     })
     .catch(function(err){
       console.error('[V2F] Lỗi tải file:', err);
@@ -86,16 +124,16 @@ function loadContent(){
           .then(function(txt){
             if(txt && txt.trim().length > 30){
               TEXT = txt.replace(/\r\n/g, '\n').trim();
-              loaded = true;
-              startTyping();
+              paragraphs = splitParagraphs(TEXT);
+              startAll();
             } else {
-              showMsg('<span style="color:#f87171;font-size:14px">⚠️ Không tải được v2f-content.txt</span><br><br>' +
-                '<span style="font-size:12px;color:#9db1c8">Vui lòng kiểm tra file đã upload lên GitHub:</span><br>' +
+              showMsg('<div style="color:#f87171;font-size:14px">⚠️ Không tải được v2f-content.txt</div>' +
+                '<div style="font-size:12px;color:#9db1c8;margin-top:12px">Vui lòng kiểm tra file đã upload lên GitHub:</div>' +
                 '<a href="https://traidat7000-dev.github.io/v2f-ai/v2f-content.txt" target="_blank" style="color:#65d9ff;font-size:12px">🔗 Kiểm tra file</a>');
             }
           })
           .catch(function(){
-            showMsg('<span style="color:#f87171;font-size:14px">⚠️ Không tải được file nội dung</span>');
+            showMsg('<div style="color:#f87171;font-size:14px">⚠️ Không tải được file nội dung</div>');
           });
       }, 3000);
     });
@@ -191,7 +229,7 @@ function setAI(name,el){
       addMsg("system","Đã chọn "+name+" — miễn phí");
       loadLLM(name);
     }else if(gpuOk && !gpuStrong){
-      addMsg("system","⚠️ GPU máy bạn quá yếu. Vui lòng chọn AI Đám Mây (miễn phí với Gemini).");
+      addMsg("system","⚠️ GPU máy bạn quá yếu. Vui lòng chọn AI Đám Mây.");
     }else{
       addMsg("system","Máy chưa hỗ trợ WebGPU — vui lòng chọn AI Đám Mây.");
     }
@@ -222,7 +260,7 @@ function loadLLM(name){
     $("modelStatusText").textContent="✅ "+name+" sẵn sàng!";
     $("progressFill").style.width="100%";
     setTimeout(function(){$("modelStatus").classList.remove("show")},2500);
-    addMsg("system","✅ "+name+" đã sẵn sàng! Chat ngay — miễn phí.");
+    addMsg("system","✅ "+name+" đã sẵn sàng!");
     loading=false;
   }
   function err(e){
@@ -272,7 +310,7 @@ function send(){
     }
     if(!gpuStrong){
       th.remove();
-      addMsg("ai","⚠️ GPU máy bạn quá yếu để chạy AI Siêu Nhẹ. Vui lòng chuyển sang tab '☁️ AI Đám Mây' + dán API Key miễn phí tại https://aistudio.google.com/app/apikey");
+      addMsg("ai","⚠️ GPU máy bạn quá yếu. Vui lòng chuyển sang tab '☁️ AI Đám Mây' + dán API Key miễn phí tại https://aistudio.google.com/app/apikey");
       return;
     }
     if(!engine){
