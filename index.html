@@ -5,64 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>V2F AI — Video To Future</title>
 <style>
-:root{--panel-bg:rgba(10,22,38,.88);--panel-border:rgba(101,217,255,.25);--text:#eef6ff;--muted:#9db1c8;--accent:#65d9ff;--accent2:#a78bfa;--success:#34d399;--warning:#fbbf24;--danger:#f87171}
+:root{--panel-bg:rgba(10,22,38,.55);--panel-border:rgba(101,217,255,.35);--text:#eef6ff;--muted:#c5d4e8;--accent:#65d9ff;--accent2:#a78bfa;--success:#34d399;--warning:#fbbf24;--danger:#f87171}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--text);background:linear-gradient(rgba(7,17,31,.7),rgba(7,17,31,.8)),url('Tranhtang.jpg') center/cover no-repeat fixed;padding:30px 15px}
-.ai-container{width:100%;max-width:860px;background:var(--panel-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--panel-border);border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.7);margin:auto}
-.brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px}
-.brand .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#07111f;font-weight:900;font-size:20px;display:grid;place-items:center}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--text);background:url('Tranhtang.jpg') center/cover no-repeat fixed;padding:30px 15px;position:relative}
+body::before{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,17,31,.35);pointer-events:none;z-index:0}
+.ai-container{position:relative;z-index:1;width:100%;max-width:860px;background:var(--panel-bg);backdrop-filter:blur(8px) saturate(1.2);-webkit-backdrop-filter:blur(8px) saturate(1.2);border:1px solid var(--panel-border);border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.1);margin:auto}
+.brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+.brand .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#07111f;font-weight:900;font-size:20px;display:grid;place-items:center;box-shadow:0 4px 12px rgba(101,217,255,.4)}
 .brand h1{margin:0;font-size:24px;font-weight:700;letter-spacing:-.5px}
-.guide{background:rgba(101,217,255,.1);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:12.5px;line-height:1.7}
+.guide{background:rgba(10,22,38,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:12.5px;line-height:1.7;box-shadow:0 4px 12px rgba(0,0,0,.4)}
 .guide strong{color:var(--accent)}
 .guide .step{display:inline-block;background:var(--accent);color:#07111f;font-weight:700;border-radius:50%;width:18px;height:18px;text-align:center;line-height:18px;font-size:11px;margin-right:6px}
 .guide a{color:var(--accent);text-decoration:underline}
-.notice{display:none;background:rgba(101,217,255,.12);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6}
+.notice{display:none;background:rgba(10,22,38,.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6;box-shadow:0 4px 12px rgba(0,0,0,.4)}
 .notice.show{display:block}
-.notice.warn{background:rgba(251,191,36,.12);border-color:var(--warning)}
+.notice.warn{background:rgba(40,25,10,.8);border-color:var(--warning)}
 .notice strong{color:var(--accent)}
 .notice.warn strong{color:var(--warning)}
 .notice a{color:var(--accent)}
 .ai-group-bar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
-.ai-group{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:7px 14px;color:var(--muted);font-size:13px;cursor:pointer;transition:.2s;font-weight:600}
-.ai-group.active,.ai-group:hover{background:rgba(167,139,250,.2);border-color:var(--accent2);color:#fff}
+.ai-group{background:rgba(10,22,38,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:7px 14px;color:var(--muted);font-size:13px;cursor:pointer;transition:.2s;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.ai-group.active,.ai-group:hover{background:rgba(167,139,250,.4);border-color:var(--accent2);color:#fff;box-shadow:0 4px 12px rgba(167,139,250,.3)}
 .ai-selector-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-.ai-tab{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:8px 14px;color:var(--muted);font-size:12px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:5px}
-.ai-tab.active,.ai-tab:hover{background:rgba(101,217,255,.2);border-color:var(--accent);color:#fff}
+.ai-tab{background:rgba(10,22,38,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:8px 14px;color:var(--muted);font-size:12px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:5px;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.ai-tab.active,.ai-tab:hover{background:rgba(101,217,255,.35);border-color:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(101,217,255,.3)}
 .ai-tab .badge{font-size:9px;padding:1px 6px;border-radius:6px;background:var(--success);color:#07111f;font-weight:700}
 .ai-tab .badge.cloud{background:var(--warning)}
-.model-status{display:none;background:rgba(5,13,24,.85);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px}
+.model-status{display:none;background:rgba(5,13,24,.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
 .model-status.show{display:block}
-.progress-bar{width:100%;height:6px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:8px;overflow:hidden}
+.progress-bar{width:100%;height:6px;background:rgba(255,255,255,.15);border-radius:3px;margin-top:8px;overflow:hidden}
 .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .3s ease}
-.api-key-box{background:rgba(5,13,24,.6);border:1px dashed var(--accent);border-radius:12px;padding:10px;margin-bottom:16px;display:flex;gap:8px;align-items:center}
+.api-key-box{background:rgba(5,13,24,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px dashed var(--accent);border-radius:12px;padding:10px;margin-bottom:16px;display:flex;gap:8px;align-items:center;box-shadow:0 4px 12px rgba(0,0,0,.4)}
 .api-key-box.hidden{display:none}
 .api-key-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:13px;font-family:inherit}
 .api-key-box .save-hint{font-size:10px;color:var(--muted);white-space:nowrap}
-.chat-window{height:360px;overflow-y:auto;background:rgba(5,13,24,.85);border:1px solid var(--panel-border);border-radius:16px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
-.msg{padding:10px 14px;border-radius:12px;max-width:85%;font-size:14px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word}
-.msg.user{background:rgba(101,217,255,.2);border:1px solid var(--accent);align-self:flex-end;color:#fff}
-.msg.ai{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);align-self:flex-start;color:var(--text)}
-.msg.system{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);align-self:center;color:var(--muted);font-size:12px;text-align:center;max-width:90%}
-.msg .meta{font-size:10px;color:var(--muted);margin-top:6px;display:block}
-.input-box{background:rgba(5,13,24,.9);border:1px solid var(--panel-border);border-radius:16px;padding:12px}
-textarea{width:100%;height:60px;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;resize:none;font-family:inherit}
-.tools-bar{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:8px}
+.chat-window{height:360px;overflow-y:auto;background:rgba(5,13,24,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--panel-border);border-radius:16px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;box-shadow:inset 0 2px 12px rgba(0,0,0,.5)}
+.msg{padding:10px 14px;border-radius:12px;max-width:85%;font-size:14px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.msg.user{background:rgba(101,217,255,.3);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--accent);align-self:flex-end;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.msg.ai{background:rgba(255,255,255,.15);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);align-self:flex-start;color:var(--text);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.msg.system{background:rgba(167,139,250,.2);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(167,139,250,.4);align-self:center;color:#e8e0ff;font-size:12px;text-align:center;max-width:90%;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.msg .meta{font-size:10px;color:#c5d4e8;margin-top:6px;display:block}
+.input-box{background:rgba(5,13,24,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--panel-border);border-radius:16px;padding:12px;box-shadow:0 4px 12px rgba(0,0,0,.5)}
+textarea{width:100%;height:60px;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;resize:none;font-family:inherit;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+textarea::placeholder{color:#9db1c8}
+.tools-bar{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap;gap:8px}
 .tools-left{display:flex;gap:8px;flex-wrap:wrap}
-.btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:4px;transition:.2s;font-family:inherit}
-.btn:hover{background:rgba(255,255,255,.18);border-color:var(--accent)}
-.btn.primary{background:linear-gradient(135deg,#1c7898,#6553a8);border:none;font-weight:600}
-.btn.primary:hover{opacity:.9}
+.btn{background:rgba(10,22,38,.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);color:var(--text);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;gap:4px;transition:.2s;font-family:inherit;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.btn:hover{background:rgba(101,217,255,.3);border-color:var(--accent)}
+.btn.primary{background:linear-gradient(135deg,#1c7898,#6553a8);border:none;font-weight:600;box-shadow:0 4px 12px rgba(28,120,152,.4)}
+.btn.primary:hover{opacity:.9;box-shadow:0 6px 16px rgba(28,120,152,.6)}
 .btn.recording{background:#8b1d2c!important;animation:pulse 1.5s infinite}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 @keyframes pulse{0%{opacity:1}50%{opacity:.5}100%{opacity:1}}
-.footer-author{text-align:center;margin-top:16px;font-size:12px;color:var(--muted);line-height:1.7}
+.footer-author{text-align:center;margin-top:16px;font-size:12px;color:#e0e8f5;line-height:1.7;text-shadow:0 2px 8px rgba(0,0,0,.9);background:rgba(5,13,24,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:10px}
 .footer-author strong{color:var(--accent)}
 .chat-window::-webkit-scrollbar{width:6px}
 .chat-window::-webkit-scrollbar-track{background:transparent}
-.chat-window::-webkit-scrollbar-thumb{background:rgba(101,217,255,.3);border-radius:3px}
+.chat-window::-webkit-scrollbar-thumb{background:rgba(101,217,255,.4);border-radius:3px}
 .lang-bar{display:flex;gap:6px;justify-content:flex-end;margin-bottom:10px}
-.lang-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:4px 10px;color:var(--muted);font-size:11px;cursor:pointer;transition:.2s}
-.lang-btn.active,.lang-btn:hover{background:rgba(101,217,255,.15);color:#fff;border-color:var(--accent)}
+.lang-btn{background:rgba(10,22,38,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:4px 10px;color:var(--muted);font-size:11px;cursor:pointer;transition:.2s;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.lang-btn.active,.lang-btn:hover{background:rgba(101,217,255,.35);color:#fff;border-color:var(--accent)}
 @media(max-width:600px){.ai-container{padding:16px;border-radius:18px}.brand h1{font-size:20px}.chat-window{height:280px}.guide{font-size:12px}}
 </style>
 </head>
@@ -71,7 +73,6 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
 <div class="ai-container">
   <div class="brand"><div class="logo">V2F</div><h1>V2F AI Hub</h1></div>
 
-  <!-- HƯỚNG DẪN NHANH -->
   <div class="guide" id="guideBox">
     <div><span class="step">1</span><strong>Máy có WebGPU (Chrome/Edge mới):</strong> chọn <strong>⚡ AI Siêu Nhẹ</strong> → chat MIỄN PHÍ, không cần gì thêm.</div>
     <div><span class="step">2</span><strong>Máy không có WebGPU (Brave/Firefox/máy cũ):</strong> chọn <strong>☁️ AI Đám Mây</strong> → dán API Key Gemini miễn phí.</div>
@@ -114,12 +115,12 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
   </div>
 
   <div class="api-key-box hidden" id="apiKeyBox">
-    🔑 <input type="password" id="apiKey" placeholder="Dán API Key (tùy chọn — chỉ cần khi dùng AI Đám Mây)...">
+    🔑 <input type="password" id="apiKey" placeholder="Dán API Key (tùy chọn)...">
     <span class="save-hint">💾 Tự động lưu</span>
   </div>
 
   <div class="chat-window" id="chatWindow">
-    <div class="msg ai">Xin chào! Tôi là V2F AI. Tôi chạy <strong>hoàn toàn miễn phí</strong> ngay trên trình duyệt của bạn — không cần API Key, không cần internet sau khi tải xong!<span class="meta">V2F AI Hub · Sẵn sàng</span></div>
+    <div class="msg ai">Xin chào! Tôi là V2F AI. Tôi chạy <strong>hoàn toàn miễn phí</strong> ngay trên trình duyệt của bạn!<span class="meta">V2F AI Hub · Sẵn sàng</span></div>
   </div>
 
   <div class="input-box">
@@ -137,7 +138,7 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
   <div class="footer-author">
     🎨 Tác phẩm: <strong>"Thung Lũng Hay Vực Sâu"</strong><br>
     Tác giả Họa sĩ: <strong>Lê Trương</strong> · Video To Future<br>
-    <span style="font-size:11px">Chia sẻ yêu thương, cùng xây di sản</span>
+    <span style="font-size:11px;opacity:.8">Chia sẻ yêu thương, cùng xây di sản</span>
   </div>
 </div>
 
@@ -217,7 +218,7 @@ function loadWebLLM(name){
   var id=MODEL_MAP[name];if(!id)return;
   engineLoading=true;
   $("modelStatus").classList.add("show");
-  $("modelStatusText").textContent="Đang tải "+name+"... (lần đầu có thể mất 1-3 phút, các lần sau nhanh hơn nhờ cache)";
+  $("modelStatusText").textContent="Đang tải "+name+"...";
   $("progressFill").style.width="0%";
   
   function doLoad(mod){
@@ -235,11 +236,11 @@ function loadWebLLM(name){
     $("modelStatusText").textContent="✅ "+name+" đã sẵn sàng!";
     $("progressFill").style.width="100%";
     setTimeout(function(){$("modelStatus").classList.remove("show")},2500);
-    appendMsg("system","✅ "+name+" đã sẵn sàng! Chat ngay — miễn phí, không cần API Key.");
+    appendMsg("system","✅ "+name+" đã sẵn sàng! Chat ngay — miễn phí.");
     engineLoading=false;
   }
   function onErr(e){
-    $("modelStatusText").textContent="❌ Lỗi tải mô hình: "+e.message;
+    $("modelStatusText").textContent="❌ Lỗi: "+e.message;
     console.error(e);
     engineLoading=false;
   }
@@ -247,7 +248,7 @@ function loadWebLLM(name){
   if(window.__webllm){doLoad(window.__webllm).then(onLoaded).catch(onErr);}
   else{
     window.addEventListener("webllm-ready",function(){doLoad(window.__webllm).then(onLoaded).catch(onErr);},{once:true});
-    setTimeout(function(){if(!window.__webllm){onErr(new Error("Không tải được thư viện WebLLM sau 20s. Kiểm tra mạng."))}},20000);
+    setTimeout(function(){if(!window.__webllm){onErr(new Error("Không tải được WebLLM sau 20s"))}},20000);
   }
 }
 
@@ -268,12 +269,12 @@ function sendMessage(){
   if(currentGroup==="local"){
     if(!webGPUSupported){
       th.remove();
-      appendMsg("ai","⚠️ Máy bạn chưa hỗ trợ WebGPU nên không thể chạy AI Siêu Nhẹ.\n\n👉 Bạn có 2 lựa chọn:\n1. Bật WebGPU: gõ chrome://flags → tìm 'WebGPU' → Enabled → Restart Chrome\n2. Chuyển sang tab '☁️ AI Đám Mây' và dán API Key (miễn phí tại aistudio.google.com/app/apikey)");
+      appendMsg("ai","⚠️ Máy bạn chưa hỗ trợ WebGPU. Bạn có 2 lựa chọn:\n1. Bật WebGPU: gõ chrome://flags → tìm 'WebGPU' → Enabled → Restart\n2. Chuyển sang tab '☁️ AI Đám Mây' và dán API Key miễn phí tại aistudio.google.com/app/apikey");
       return;
     }
     if(!engine){
       th.remove();
-      appendMsg("ai","⏳ Mô hình đang tải, vui lòng đợi thêm. Nếu quá lâu, thử chọn mô hình nhỏ hơn (Qwen2.5 0.5B).");
+      appendMsg("ai","⏳ Mô hình đang tải, vui lòng đợi. Hoặc chọn mô hình nhỏ hơn (Qwen2.5 0.5B).");
       return;
     }
     pr=engine.chat.completions.create({messages:[{role:"user",content:text}],temperature:.7,max_tokens:1024}).then(function(r){return r.choices[0].message.content});
@@ -281,7 +282,7 @@ function sendMessage(){
     var key=$("apiKey").value.trim();
     if(!key){
       th.remove();
-      appendMsg("ai","🔑 Bạn đang ở chế độ AI Đám Mây. Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy API Key Gemini MIỄN PHÍ tại: https://aistudio.google.com/app/apikey");
+      appendMsg("ai","🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
       return;
     }
     try{localStorage.setItem("v2f_api_key",key);localStorage.setItem("v2f_ai",currentAI);}catch(e){}
@@ -331,17 +332,7 @@ function setup(){
   
   checkGPU().then(function(ok){
     if(ok){
-      showNotice("✅ Máy bạn <strong>hỗ trợ WebGPU</strong>! AI Siêu Nhẹ đang được tải — miễn phí, không cần API Key.", false);
+      showNotice("✅ Máy bạn <strong>hỗ trợ WebGPU</strong>! AI Siêu Nhẹ đang tải — miễn phí, không cần API Key.", false);
       loadWebLLM("Llama-3.2-1B");
     }else{
-      showNotice("⚠️ Máy bạn <strong>chưa hỗ trợ WebGPU</strong>. Bạn vẫn chat được bằng <strong>AI Đám Mây</strong> (dán API Key Gemini miễn phí tại <a href='https://aistudio.google.com/app/apikey' target='_blank'>aistudio.google.com/app/apikey</a>) — hoặc bật WebGPU: gõ <code>chrome://flags</code> → tìm 'WebGPU' → Enabled → Restart.", true);
-      appendMsg("system","💡 Máy bạn chưa hỗ trợ WebGPU. Bạn vẫn chat được — chỉ cần dán API Key Gemini miễn phí vào ô 🔑 bên trên (hoặc bật WebGPU để dùng offline miễn phí).");
-      selectGroup("cloud",$("groupCloud"));
-    }
-  });
-}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup);else setup();
-</script>
-
-</body>
-</html>
+      showNotice("⚠️ Máy bạn <strong>chưa hỗ trợ WebGPU</strong>. Vẫn chat được bằng <strong>AI Đám Mây</strong> (dán API Key Gemini miễn phí tại <a href='https://aistudio.google.com/app/apikey' target='_blank'>aistudio.google.com/app/apikey</
