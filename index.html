@@ -65,10 +65,11 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
 
   <div class="gpu-warning" id="gpuWarning">
     <strong>⚠️ Trình duyệt không hỗ trợ WebGPU.</strong><br>
-    Tính năng "AI Siêu Nhẹ" cần WebGPU.<br>
-    • Dùng <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> hoặc <a href="https://www.microsoft.com/edge" target="_blank">Edge</a> mới nhất.<br>
-    • Hoặc chuyển sang <strong>☁️ AI Đám Mây</strong>.<br>
-    <button class="btn" style="margin-top:8px" id="recheckGPU">🔄 Kiểm tra lại</button>
+    Tính năng "AI Siêu Nhẹ" cần WebGPU. Bạn có thể:<br>
+    • Cập nhật <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> hoặc <a href="https://www.microsoft.com/edge" target="_blank">Edge</a> mới nhất.<br>
+    • Bật WebGPU: gõ <code>chrome://flags</code> → tìm "WebGPU" → Enabled → Restart.<br>
+    • Hoặc chuyển sang <strong>☁️ AI Đám Mây</strong> (cần API Key).<br>
+    <button class="btn" style="margin-top:8px" id="recheckGPU">🔄 Kiểm tra lại WebGPU</button>
   </div>
 
   <div class="lang-bar">
@@ -81,15 +82,15 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
   </div>
 
   <div class="ai-group-bar">
-    <div class="ai-group active" id="groupLocal" data-group="local">⚡ AI Siêu Nhẹ (WebLLM)</div>
+    <div class="ai-group active" id="groupLocal" data-group="local">⚡ AI Siêu Nhẹ (Miễn phí · Offline)</div>
     <div class="ai-group" id="groupCloud" data-group="cloud">☁️ AI Đám Mây (API Key)</div>
   </div>
 
   <div class="ai-selector-bar" id="aiTabs">
-    <div class="ai-tab active" data-group="local" data-ai="Llama-3.2-1B">🦙 Llama 3.2 1B <span class="badge">LOCAL</span></div>
-    <div class="ai-tab" data-group="local" data-ai="Qwen2.5-0.5B">🐉 Qwen2.5 0.5B <span class="badge">LOCAL</span></div>
-    <div class="ai-tab" data-group="local" data-ai="Phi-3.5-mini">🔷 Phi-3.5 Mini <span class="badge">LOCAL</span></div>
-    <div class="ai-tab" data-group="local" data-ai="Gemma-2-2B">💎 Gemma 2 2B <span class="badge">LOCAL</span></div>
+    <div class="ai-tab active" data-group="local" data-ai="Llama-3.2-1B">🦙 Llama 3.2 1B <span class="badge">FREE</span></div>
+    <div class="ai-tab" data-group="local" data-ai="Qwen2.5-0.5B">🐉 Qwen2.5 0.5B <span class="badge">FREE</span></div>
+    <div class="ai-tab" data-group="local" data-ai="Phi-3.5-mini">🔷 Phi-3.5 Mini <span class="badge">FREE</span></div>
+    <div class="ai-tab" data-group="local" data-ai="Gemma-2-2B">💎 Gemma 2 2B <span class="badge">FREE</span></div>
     <div class="ai-tab" data-group="cloud" style="display:none" data-ai="Gemini">🔵 Gemini 1.5 <span class="badge cloud">API</span></div>
     <div class="ai-tab" data-group="cloud" style="display:none" data-ai="ChatGPT">🟢 ChatGPT <span class="badge cloud">API</span></div>
     <div class="ai-tab" data-group="cloud" style="display:none" data-ai="DeepSeek">💙 DeepSeek <span class="badge cloud">API</span></div>
@@ -99,14 +100,14 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
   </div>
 
   <div class="model-status" id="modelStatus">
-    <div id="modelStatusText">Đang tải...</div>
+    <div id="modelStatusText">Đang tải mô hình AI...</div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   </div>
 
-  <div class="api-key-box hidden" id="apiKeyBox">🔑 <input type="password" id="apiKey" placeholder="Nhập API Key..."></div>
+  <div class="api-key-box hidden" id="apiKeyBox">🔑 <input type="password" id="apiKey" placeholder="Dán API Key vào đây (chỉ cần khi dùng AI Đám Mây)..."></div>
 
   <div class="chat-window" id="chatWindow">
-    <div class="msg ai">Xin chào! Tôi là V2F AI.<span class="meta">V2F AI Hub · Sẵn sàng</span></div>
+    <div class="msg ai">Xin chào! Tôi là V2F AI. Tôi chạy <strong>hoàn toàn miễn phí</strong> ngay trên trình duyệt của bạn — không cần API Key, không cần internet sau khi tải xong!<span class="meta">V2F AI Hub · Sẵn sàng</span></div>
   </div>
 
   <div class="input-box">
@@ -131,9 +132,23 @@ window.dispatchEvent(new Event("webllm-ready"));
 </script>
 
 <script>
-var MODEL_MAP={"Llama-3.2-1B":"Llama-3.2-1B-Instruct-q4f16_1-MLC","Qwen2.5-0.5B":"Qwen2.5-0.5B-Instruct-q4f16_1-MLC","Phi-3.5-mini":"Phi-3.5-mini-instruct-q4f16_1-MLC","Gemma-2-2B":"gemma-2-2b-it-q4f16_1-MLC"};
-var CLOUD_ENDPOINTS={"Gemini":{url:"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",type:"gemini"},"ChatGPT":{url:"https://api.openai.com/v1/chat/completions",type:"openai",model:"gpt-4o-mini"},"DeepSeek":{url:"https://api.deepseek.com/chat/completions",type:"openai",model:"deepseek-chat"},"Claude":{url:"https://api.anthropic.com/v1/messages",type:"anthropic",model:"claude-3-5-sonnet-20241022"},"Grok":{url:"https://api.x.ai/v1/chat/completions",type:"openai",model:"grok-beta"},"Mistral":{url:"https://api.mistral.ai/v1/chat/completions",type:"openai",model:"mistral-large-latest"}};
-var currentGroup="local",currentAI="Llama-3.2-1B",currentLang="vi",engine=null,engineLoading=false,lastAIResponse="",webGPUSupported=false,webllmModule=null;
+var MODEL_MAP={
+  "Llama-3.2-1B":"Llama-3.2-1B-Instruct-q4f16_1-MLC",
+  "Qwen2.5-0.5B":"Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
+  "Phi-3.5-mini":"Phi-3.5-mini-instruct-q4f16_1-MLC",
+  "Gemma-2-2B":"gemma-2-2b-it-q4f16_1-MLC"
+};
+var CLOUD_ENDPOINTS={
+  "Gemini":{url:"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",type:"gemini"},
+  "ChatGPT":{url:"https://api.openai.com/v1/chat/completions",type:"openai",model:"gpt-4o-mini"},
+  "DeepSeek":{url:"https://api.deepseek.com/chat/completions",type:"openai",model:"deepseek-chat"},
+  "Claude":{url:"https://api.anthropic.com/v1/messages",type:"anthropic",model:"claude-3-5-sonnet-20241022"},
+  "Grok":{url:"https://api.x.ai/v1/chat/completions",type:"openai",model:"grok-beta"},
+  "Mistral":{url:"https://api.mistral.ai/v1/chat/completions",type:"openai",model:"mistral-large-latest"}
+};
+
+var currentGroup="local",currentAI="Llama-3.2-1B",currentLang="vi";
+var engine=null,engineLoading=false,lastAIResponse="",webGPUSupported=false,webllmModule=null;
 
 function $(id){return document.getElementById(id)}
 function appendMsg(type,text,meta){var w=$("chatWindow");var d=document.createElement("div");d.className="msg "+type;d.textContent=text;if(meta){var m=document.createElement("span");m.className="meta";m.textContent=meta;d.appendChild(m)}w.appendChild(d);w.scrollTop=w.scrollHeight;return d}
@@ -143,23 +158,26 @@ function checkGPU(){
     webGPUSupported=false;
     $("gpuWarning").classList.add("show");
     $("groupLocal").classList.add("disabled");
-    selectGroup("cloud",$("groupCloud"));
     return Promise.resolve(false);
   }
   return navigator.gpu.requestAdapter().then(function(a){
-    if(!a){webGPUSupported=false;$("gpuWarning").classList.add("show");$("groupLocal").classList.add("disabled");selectGroup("cloud",$("groupCloud"));return false}
+    if(!a){webGPUSupported=false;$("gpuWarning").classList.add("show");$("groupLocal").classList.add("disabled");return false}
     webGPUSupported=true;$("gpuWarning").classList.remove("show");$("groupLocal").classList.remove("disabled");return true;
-  }).catch(function(){webGPUSupported=false;$("gpuWarning").classList.add("show");$("groupLocal").classList.add("disabled");selectGroup("cloud",$("groupCloud"));return false});
+  }).catch(function(){webGPUSupported=false;$("gpuWarning").classList.add("show");$("groupLocal").classList.add("disabled");return false});
 }
 
 function selectGroup(g,el){
-  if(g==="local"&&!webGPUSupported){$("gpuWarning").classList.add("show");return}
+  if(g==="local"&&!webGPUSupported){
+    $("gpuWarning").classList.add("show");
+    return;
+  }
   currentGroup=g;
   var gs=document.querySelectorAll(".ai-group");
   for(var i=0;i<gs.length;i++)gs[i].classList.remove("active");
   if(el)el.classList.add("active");
   var ts=document.querySelectorAll(".ai-tab");
   for(var j=0;j<ts.length;j++){ts[j].style.display=ts[j].getAttribute("data-group")===g?"inline-flex":"none"}
+  // CHỈ hiện API Key khi ở chế độ Cloud
   $("apiKeyBox").classList.toggle("hidden",g!=="cloud");
   var ft=document.querySelector('.ai-tab[data-group="'+g+'"]');
   if(ft)ft.click();
@@ -170,8 +188,12 @@ function selectAI(name,el){
   var ts=document.querySelectorAll(".ai-tab");
   for(var i=0;i<ts.length;i++)ts[i].classList.remove("active");
   if(el)el.classList.add("active");
-  appendMsg("system","Đã chuyển sang "+name);
-  if(currentGroup==="local"&&webGPUSupported)loadWebLLM(name);
+  if(currentGroup==="local"&&webGPUSupported){
+    appendMsg("system","Đã chọn mô hình "+name+" — không cần API Key!");
+    loadWebLLM(name);
+  }else{
+    appendMsg("system","Đã chuyển sang "+name+" (cần API Key)");
+  }
 }
 
 function loadWebLLM(name){
@@ -179,7 +201,7 @@ function loadWebLLM(name){
   var id=MODEL_MAP[name];if(!id)return;
   engineLoading=true;
   $("modelStatus").classList.add("show");
-  $("modelStatusText").textContent="Đang tải "+name+"...";
+  $("modelStatusText").textContent="Đang tải "+name+"... (lần đầu có thể mất 1-3 phút)";
   $("progressFill").style.width="0%";
   
   function doLoad(mod){
@@ -188,27 +210,28 @@ function loadWebLLM(name){
       initProgressCallback:function(r){
         var p=Math.round((r.progress||0)*100);
         $("progressFill").style.width=p+"%";
-        $("modelStatusText").textContent="Đang tải "+p+"% — "+(r.text||"");
+        $("modelStatusText").textContent="Đang tải "+name+" — "+p+"% — "+(r.text||"");
       }
     });
   }
   function onLoaded(eng){
     engine=eng;
-    $("modelStatusText").textContent="✅ Mô hình sẵn sàng!";
+    $("modelStatusText").textContent="✅ "+name+" đã sẵn sàng! Không cần API Key.";
     $("progressFill").style.width="100%";
-    setTimeout(function(){$("modelStatus").classList.remove("show")},2000);
-    appendMsg("system","Mô hình "+name+" đã sẵn sàng!");
+    setTimeout(function(){$("modelStatus").classList.remove("show")},2500);
+    appendMsg("system","✅ "+name+" đã sẵn sàng! Bạn có thể chat ngay (miễn phí, không cần API Key).");
     engineLoading=false;
   }
   function onErr(e){
-    $("modelStatusText").textContent="❌ Lỗi: "+e.message;
+    $("modelStatusText").textContent="❌ Lỗi tải mô hình: "+e.message;
     console.error(e);
     engineLoading=false;
   }
   
   if(window.__webllm){doLoad(window.__webllm).then(onLoaded).catch(onErr);}
-  else{window.addEventListener("webllm-ready",function(){doLoad(window.__webllm).then(onLoaded).catch(onErr);},{once:true});
-    setTimeout(function(){if(!window.__webllm){onErr(new Error("Không tải được thư viện WebLLM sau 15s"))}},15000);
+  else{
+    window.addEventListener("webllm-ready",function(){doLoad(window.__webllm).then(onLoaded).catch(onErr);},{once:true});
+    setTimeout(function(){if(!window.__webllm){onErr(new Error("Không tải được thư viện WebLLM sau 20s"))}},20000);
   }
 }
 
@@ -222,18 +245,28 @@ function callCloudAI(text,key){
 
 function sendMessage(){
   var p=$("prompt"),text=p.value.trim();if(!text)return;
-  var key=$("apiKey").value.trim();
   appendMsg("user",text);p.value="";
   var th=appendMsg("ai","Đang suy nghĩ...");
   var pr;
+  
   if(currentGroup==="local"){
-    if(!webGPUSupported){th.remove();appendMsg("ai","Trình duyệt không hỗ trợ WebGPU.");return}
-    if(!engine){th.remove();appendMsg("ai","⏳ Mô hình chưa sẵn sàng.");return}
+    if(!webGPUSupported){
+      th.remove();
+      appendMsg("ai","Máy bạn không hỗ trợ WebGPU. Vui lòng chuyển sang tab '☁️ AI Đám Mây' hoặc cập nhật trình duyệt.");
+      return;
+    }
+    if(!engine){
+      th.remove();
+      appendMsg("ai","⏳ Mô hình chưa tải xong. Vui lòng đợi thêm hoặc chọn mô hình nhỏ hơn (Qwen2.5 0.5B).");
+      return;
+    }
     pr=engine.chat.completions.create({messages:[{role:"user",content:text}],temperature:.7,max_tokens:1024}).then(function(r){return r.choices[0].message.content});
   }else{
-    if(!key){th.remove();alert("Vui lòng nhập API Key!");return}
+    var key=$("apiKey").value.trim();
+    if(!key){th.remove();alert("Bạn cần nhập API Key để dùng AI Đám Mây!");return}
     pr=callCloudAI(text,key);
   }
+  
   pr.then(function(txt){th.remove();appendMsg("ai",txt,currentAI+" · "+new Date().toLocaleTimeString());lastAIResponse=txt})
     .catch(function(e){th.remove();appendMsg("ai","Lỗi: "+e.message);console.error(e)});
 }
@@ -268,9 +301,18 @@ function setup(){
     rec.onresult=function(e){var p=$("prompt");p.value+=(p.value?" ":"")+e.results[0][0].transcript};
     rec.onerror=function(){$("micBtn").classList.remove("recording")};
     $("micBtn").onclick=function(){if(this.classList.contains("recording"))rec.stop();else rec.start()};
-  }else{$("micBtn").disabled=true;$("micBtn").title="Không hỗ trợ"}
-  $("recheckGPU").onclick=function(){checkGPU()};
-  checkGPU().then(function(){if(webGPUSupported)loadWebLLM("Llama-3.2-1B")});
+  }else{$("micBtn").disabled=true;$("micBtn").title="Trình duyệt không hỗ trợ"}
+  $("recheckGPU").onclick=function(){checkGPU().then(function(ok){if(ok)loadWebLLM(currentAI)})};
+  
+  // Khởi động: kiểm tra GPU rồi tự động tải mô hình
+  checkGPU().then(function(ok){
+    if(ok){
+      loadWebLLM("Llama-3.2-1B");
+    }else{
+      appendMsg("system","Máy bạn không hỗ trợ WebGPU. Đã chuyển sang AI Đám Mây — vui lòng nhập API Key.");
+      selectGroup("cloud",$("groupCloud"));
+    }
+  });
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup);else setup();
 </script>
