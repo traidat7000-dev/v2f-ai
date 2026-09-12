@@ -4,12 +4,9 @@
 /* ============================================================
    TYPEWRITER — CHẠY LIÊN TỤC, TỰ ĐẨY LÊN KHI CHẠM 2/3 KHUNG
    ============================================================ */
-
 var twEl = document.getElementById('typewriter');
-var twWrap = document.querySelector('.typewriter-wrap');
 var cursor = document.createElement('span');
 cursor.className = 'cursor';
-
 var TEXT = '';
 var idx = 0;
 var typing = false;
@@ -21,22 +18,15 @@ function showMsg(html){
 
 /* Tự động đẩy chữ cũ lên khi chữ mới chạm ngưỡng 2/3 khung */
 function autoPush(){
-  if(!twEl || !twWrap) return;
-  // Dùng requestAnimationFrame để đảm bảo DOM đã cập nhật
-  requestAnimationFrame(function(){
-    var wrapH = twWrap.clientHeight;        // chiều cao khung tranh
-    var contentH = twEl.scrollHeight;        // chiều cao nội dung chữ
-    var threshold = wrapH * 0.66;            // 2/3 khung
+  if(!twEl) return;
+  var h = twEl.clientHeight;
+  var sh = twEl.scrollHeight;
+  var threshold = h * 0.66;          // 2/3 chiều cao khung
 
-    // Nếu nội dung vượt 2/3 khung → cuộn xuống để chữ mới nhất nằm ở 2/3
-    if(contentH > threshold){
-      // Vị trí cuộn = tổng chiều cao - 2/3 khung (để chữ mới luôn ở 2/3)
-      twEl.scrollTop = contentH - threshold;
-    } else {
-      // Chưa vượt → giữ ở đầu
-      twEl.scrollTop = 0;
-    }
-  });
+  if(sh > threshold){
+    // Đẩy sao cho phần mới nhất luôn nằm trong 2/3 khung dưới
+    twEl.scrollTop = sh - threshold;
+  }
 }
 
 function startTyping(){
@@ -55,7 +45,10 @@ function typeNext(){
     twEl.textContent = TEXT.substring(0, idx + 1);
     twEl.appendChild(cursor);
     idx++;
-    autoPush();
+
+    // Dùng requestAnimationFrame để autoPush mượt hơn
+    requestAnimationFrame(autoPush);
+
     var ch = TEXT.charAt(idx - 1);
     var delay;
     if(ch === '\n') delay = 220;
@@ -112,7 +105,6 @@ function loadContent(){
       }, 3000);
     });
 }
-
 loadContent();
 
 /* ============================================================
@@ -132,7 +124,6 @@ var CLOUD={
   "Grok":{url:"https://api.x.ai/v1/chat/completions",type:"openai",model:"grok-beta"},
   "Mistral":{url:"https://api.mistral.ai/v1/chat/completions",type:"openai",model:"mistral-large-latest"}
 };
-
 var group="local",ai="Llama-3.2-1B";
 var engine=null,loading=false,lastResp="",gpuOk=false,gpuStrong=false;
 
@@ -159,22 +150,6 @@ function notice(html,warn){
   if(!n) return;
   n.innerHTML=html;
   n.className="notice show"+(warn?" warn":"");
-}
-
-/* Hiện "đã lưu" khi key thay đổi */
-function showSaveHint(){
-  var box = $("apiKeyBox");
-  if(!box) return;
-  var hint = box.querySelector(".save-hint");
-  if(hint){
-    var old = hint.textContent;
-    hint.textContent = "✅ Đã lưu";
-    hint.style.color = "#34d399";
-    setTimeout(function(){
-      hint.textContent = old;
-      hint.style.color = "";
-    }, 1500);
-  }
 }
 
 function checkGPU(){
@@ -285,6 +260,23 @@ function callCloud(text,key){
   return Promise.reject(new Error("Unsupported"));
 }
 
+/* ========== LƯU API KEY ========== */
+function saveApiKey(){
+  var keyEl = $("apiKey");
+  if(!keyEl) return;
+  var key = keyEl.value.trim();
+  if(!key){
+    addMsg("system","⚠️ Chưa có API Key để lưu");
+    return;
+  }
+  try{
+    localStorage.setItem("v2f_api_key", key);
+    addMsg("system","✅ Đã lưu API Key thành công!");
+  }catch(e){
+    addMsg("system","❌ Không thể lưu API Key: " + e.message);
+  }
+}
+
 function send(){
   var p=$("prompt"),text=p.value.trim();
   if(!text)return;
@@ -317,11 +309,8 @@ function send(){
       addMsg("ai","🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
       return;
     }
-    // Lưu key
-    try{
-      localStorage.setItem("v2f_api_key",key);
-      showSaveHint();
-    }catch(e){}
+    // Auto-save khi gửi
+    try{localStorage.setItem("v2f_api_key",key);}catch(e){}
     pr=callCloud(text,key);
   }
   
@@ -336,35 +325,16 @@ function send(){
 }
 
 function setup(){
-  // KHÔI PHỤC API KEY ĐÃ LƯU
+  // Load API key đã lưu
   try{
     var saved=localStorage.getItem("v2f_api_key");
-    if(saved && $("apiKey")){
-      $("apiKey").value=saved;
-      console.log("[V2F] Đã khôi phục API Key từ bộ nhớ");
-    }
+    if(saved && $("apiKey")) $("apiKey").value=saved;
   }catch(e){}
   
-  // TỰ ĐỘNG LƯU API KEY KHI GÕ
-  var apiInput = $("apiKey");
-  if(apiInput){
-    apiInput.addEventListener("input", function(){
-      try{
-        var v = this.value.trim();
-        if(v.length > 10){
-          localStorage.setItem("v2f_api_key", v);
-        }
-      }catch(e){}
-    });
-    apiInput.addEventListener("change", function(){
-      try{
-        var v = this.value.trim();
-        if(v.length > 10){
-          localStorage.setItem("v2f_api_key", v);
-          showSaveHint();
-        }
-      }catch(e){}
-    });
+  // Nút lưu API Key (nếu có id="saveKeyBtn")
+  var saveBtn = $("saveKeyBtn");
+  if(saveBtn){
+    saveBtn.onclick = saveApiKey;
   }
   
   var lb=document.querySelectorAll(".lang-btn");
