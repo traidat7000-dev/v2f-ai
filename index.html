@@ -12,61 +12,60 @@ html,body{margin:0;padding:0;height:100vh;overflow:hidden;font-family:Inter,syst
 .layout{display:flex;height:100vh;width:100%}
 
 /* ============ CỘT TRÁI: CHAT ============ */
-.left-panel{width:55%;min-width:360px;height:100vh;padding:20px 18px;display:flex;flex-direction:column;gap:12px;background:linear-gradient(135deg,rgba(7,17,31,.99),rgba(15,30,50,.99));overflow-y:auto;border-right:2px solid var(--accent)}
+.left-panel{width:55%;min-width:340px;height:100vh;padding:18px 16px;display:flex;flex-direction:column;gap:10px;background:linear-gradient(135deg,rgba(7,17,31,.99),rgba(15,30,50,.99));overflow-y:auto;border-right:2px solid var(--accent)}
 
-.brand{display:flex;align-items:center;gap:12px}
-.brand .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#07111f;font-weight:900;font-size:18px;display:grid;place-items:center;flex-shrink:0}
-.brand h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.5px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#07111f;font-weight:900;font-size:16px;display:grid;place-items:center;flex-shrink:0}
+.brand h1{margin:0;font-size:20px;font-weight:700;letter-spacing:-.5px}
 
-.guide{background:rgba(101,217,255,.08);border:1px solid rgba(101,217,255,.3);border-radius:12px;padding:10px 14px;font-size:12px;line-height:1.6}
+.guide{background:rgba(101,217,255,.08);border:1px solid rgba(101,217,255,.3);border-radius:10px;padding:8px 12px;font-size:11.5px;line-height:1.55}
 .guide strong{color:var(--accent)}
-.guide .step{display:inline-block;background:var(--accent);color:#07111f;font-weight:700;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-size:10px;margin-right:5px}
+.guide .step{display:inline-block;background:var(--accent);color:#07111f;font-weight:700;border-radius:50%;width:15px;height:15px;text-align:center;line-height:15px;font-size:9.5px;margin-right:4px}
 .guide a{color:var(--accent);text-decoration:underline}
-.guide .hint{font-size:10.5px;color:var(--muted);margin-top:5px}
 
-.notice{display:none;background:rgba(101,217,255,.12);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;font-size:12px;line-height:1.5}
+.notice{display:none;background:rgba(101,217,255,.12);border:1px solid var(--accent);border-radius:9px;padding:9px 12px;font-size:11.5px;line-height:1.5}
 .notice.show{display:block}
 .notice.warn{background:rgba(251,191,36,.12);border-color:var(--warning)}
 .notice strong{color:var(--accent)}
 .notice.warn strong{color:var(--warning)}
 .notice a{color:var(--accent)}
 
-.lang-bar{display:flex;gap:5px;flex-wrap:wrap}
-.lang-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:3px 9px;color:var(--muted);font-size:10.5px;cursor:pointer;transition:.2s}
+.lang-bar{display:flex;gap:4px;flex-wrap:wrap}
+.lang-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:5px;padding:2px 8px;color:var(--muted);font-size:10px;cursor:pointer;transition:.2s}
 .lang-btn.active,.lang-btn:hover{background:rgba(101,217,255,.2);color:#fff;border-color:var(--accent)}
 
 .ai-group-bar{display:flex;gap:5px;flex-wrap:wrap}
-.ai-group{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:6px 11px;color:var(--muted);font-size:12px;cursor:pointer;transition:.2s;font-weight:600;flex:1;text-align:center}
+.ai-group{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 10px;color:var(--muted);font-size:11px;cursor:pointer;transition:.2s;font-weight:600;flex:1;text-align:center}
 .ai-group.active,.ai-group:hover{background:rgba(167,139,250,.2);border-color:var(--accent2);color:#fff}
 
-.ai-selector-bar{display:flex;gap:5px;flex-wrap:wrap}
-.ai-tab{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:6px 10px;color:var(--muted);font-size:11px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:4px}
+.ai-selector-bar{display:flex;gap:4px;flex-wrap:wrap}
+.ai-tab{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:5px 9px;color:var(--muted);font-size:10.5px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:3px}
 .ai-tab.active,.ai-tab:hover{background:rgba(101,217,255,.2);border-color:var(--accent);color:#fff}
-.ai-tab .badge{font-size:8px;padding:1px 5px;border-radius:5px;background:var(--success);color:#07111f;font-weight:700}
+.ai-tab .badge{font-size:8px;padding:1px 4px;border-radius:4px;background:var(--success);color:#07111f;font-weight:700}
 .ai-tab .badge.cloud{background:var(--warning)}
 
-.model-status{display:none;background:rgba(5,13,24,.9);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;font-size:12px}
+.model-status{display:none;background:rgba(5,13,24,.9);border:1px solid var(--accent);border-radius:9px;padding:9px 12px;font-size:11.5px}
 .model-status.show{display:block}
-.progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:6px;overflow:hidden}
+.progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:5px;overflow:hidden}
 .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .3s ease}
 
-.api-key-box{background:rgba(5,13,24,.7);border:1px dashed var(--accent);border-radius:10px;padding:8px 12px;display:flex;gap:8px;align-items:center;font-size:12px}
+.api-key-box{background:rgba(5,13,24,.7);border:1px dashed var(--accent);border-radius:9px;padding:7px 11px;display:flex;gap:8px;align-items:center;font-size:11.5px}
 .api-key-box.hidden{display:none}
-.api-key-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:12px;font-family:inherit}
-.api-key-box .save-hint{font-size:10px;color:var(--muted);white-space:nowrap}
+.api-key-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:11.5px;font-family:inherit}
+.api-key-box .save-hint{font-size:9.5px;color:var(--muted);white-space:nowrap}
 
-.chat-window{flex:1;min-height:200px;overflow-y:auto;background:rgba(5,13,24,.6);border:1px solid var(--panel-border);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
-.msg{padding:9px 13px;border-radius:11px;max-width:88%;font-size:13.5px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word}
+.chat-window{flex:1;min-height:180px;overflow-y:auto;background:rgba(5,13,24,.6);border:1px solid var(--panel-border);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:9px;scroll-behavior:smooth}
+.msg{padding:8px 12px;border-radius:10px;max-width:90%;font-size:13px;line-height:1.5;white-space:pre-wrap;word-wrap:break-word}
 .msg.user{background:rgba(101,217,255,.25);border:1px solid var(--accent);align-self:flex-end;color:#fff}
 .msg.ai{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);align-self:flex-start;color:var(--text)}
-.msg.system{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);align-self:center;color:var(--muted);font-size:11.5px;text-align:center;max-width:90%}
-.msg .meta{font-size:10px;color:var(--muted);margin-top:5px;display:block}
+.msg.system{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);align-self:center;color:var(--muted);font-size:11px;text-align:center;max-width:90%}
+.msg .meta{font-size:9.5px;color:var(--muted);margin-top:4px;display:block}
 
-.input-box{background:rgba(5,13,24,.85);border:1px solid var(--panel-border);border-radius:14px;padding:10px}
-textarea{width:100%;height:50px;background:transparent;border:none;outline:none;color:var(--text);font-size:13.5px;resize:none;font-family:inherit}
-.tools-bar{display:flex;justify-content:space-between;align-items:center;margin-top:5px;padding-top:7px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:6px}
-.tools-left{display:flex;gap:6px;flex-wrap:wrap}
-.btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:8px;padding:5px 11px;cursor:pointer;font-size:11.5px;display:inline-flex;align-items:center;gap:4px;transition:.2s;font-family:inherit}
+.input-box{background:rgba(5,13,24,.85);border:1px solid var(--panel-border);border-radius:12px;padding:9px}
+textarea{width:100%;height:45px;background:transparent;border:none;outline:none;color:var(--text);font-size:13px;resize:none;font-family:inherit}
+.tools-bar{display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:5px}
+.tools-left{display:flex;gap:5px;flex-wrap:wrap}
+.btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:var(--text);border-radius:7px;padding:5px 10px;cursor:pointer;font-size:11px;display:inline-flex;align-items:center;gap:3px;transition:.2s;font-family:inherit}
 .btn:hover{background:rgba(255,255,255,.18);border-color:var(--accent)}
 .btn.primary{background:linear-gradient(135deg,#1c7898,#6553a8);border:none;font-weight:600}
 .btn.primary:hover{opacity:.9}
@@ -74,57 +73,50 @@ textarea{width:100%;height:50px;background:transparent;border:none;outline:none;
 .btn:disabled{opacity:.5;cursor:not-allowed}
 @keyframes pulse{0%{opacity:1}50%{opacity:.5}100%{opacity:1}}
 
-.footer-author{text-align:center;font-size:11px;color:var(--muted);line-height:1.6}
+.footer-author{text-align:center;font-size:10.5px;color:var(--muted);line-height:1.5}
 .footer-author strong{color:var(--accent)}
-.chat-window::-webkit-scrollbar,.left-panel::-webkit-scrollbar{width:6px}
+.chat-window::-webkit-scrollbar,.left-panel::-webkit-scrollbar{width:5px}
 .chat-window::-webkit-scrollbar-track,.left-panel::-webkit-scrollbar-track{background:transparent}
 .chat-window::-webkit-scrollbar-thumb,.left-panel::-webkit-scrollbar-thumb{background:rgba(101,217,255,.3);border-radius:3px}
 
 /* ============ CỘT PHẢI: TRANH + CHỮ CHẠY ============ */
 .right-panel{width:45%;position:relative;height:100vh;overflow:hidden;background:url('Tranhtang.jpg') center/cover no-repeat;background-color:#1a0d0d}
 
-.right-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,17,31,.55) 0%,rgba(7,17,31,.25) 40%,rgba(7,17,31,.75) 100%);z-index:1}
+.right-panel::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,17,31,.75) 0%,rgba(7,17,31,.35) 50%,rgba(7,17,31,.85) 100%);z-index:1}
 
-.ticker-wrap{position:absolute;top:0;left:0;right:0;z-index:3;background:linear-gradient(180deg,rgba(7,17,31,.85),rgba(7,17,31,.5),transparent);padding:14px 0 20px;overflow:hidden}
-.ticker-title{text-align:center;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase;text-shadow:0 2px 8px rgba(0,0,0,.9)}
-.ticker{display:flex;gap:40px;animation:tickerMove 60s linear infinite;white-space:nowrap}
-.ticker-item{font-size:14px;color:#fff;font-weight:500;text-shadow:0 2px 8px rgba(0,0,0,.95),0 0 20px rgba(101,217,255,.3);padding:0 20px}
-.ticker-item strong{color:var(--accent)}
-.ticker-item .sep{color:var(--accent2);margin:0 10px}
+/* Chữ chạy kiểu typewriter che kín bức tranh */
+.typewriter-wrap{position:absolute;inset:0;z-index:2;padding:40px 30px;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.typewriter{font-family:'Courier New',Courier,monospace;font-size:15px;line-height:1.8;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,1),0 0 25px rgba(101,217,255,.5);white-space:pre-wrap;word-wrap:break-word;max-width:100%;max-height:100%;overflow:hidden;letter-spacing:.3px}
+.typewriter .cursor{display:inline-block;width:9px;height:1.1em;background:var(--accent);margin-left:2px;vertical-align:text-bottom;animation:blink .8s infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 
-@keyframes tickerMove{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-
-.right-content{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:24px 28px 30px;background:linear-gradient(0deg,rgba(7,17,31,.95) 0%,rgba(7,17,31,.75) 60%,transparent 100%);max-height:70%;overflow-y:auto}
-.right-content::-webkit-scrollbar{width:5px}
-.right-content::-webkit-scrollbar-thumb{background:rgba(101,217,255,.4);border-radius:3px}
-
-.art-title{font-size:22px;font-weight:800;color:#fff;line-height:1.3;text-shadow:0 3px 12px rgba(0,0,0,.95);margin:0 0 6px}
-.art-title span{color:var(--accent);font-style:italic}
-.art-sub{font-size:12px;color:var(--muted);margin-bottom:14px;letter-spacing:.5px}
-
-.art-quote{font-size:14px;font-style:italic;color:#e8f2ff;line-height:1.7;padding:12px 16px;border-left:3px solid var(--accent);background:rgba(101,217,255,.08);border-radius:0 10px 10px 0;margin-bottom:14px;text-shadow:0 2px 6px rgba(0,0,0,.9)}
-
-.three-q{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
-.q-item{background:rgba(5,13,24,.8);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.5;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.9)}
-.q-item .num{display:inline-block;width:22px;height:22px;background:var(--accent);color:#07111f;font-weight:800;border-radius:50%;text-align:center;line-height:22px;font-size:12px;margin-right:8px}
-.q-item .en{display:block;font-size:11px;color:var(--muted);font-style:italic;margin-top:3px;margin-left:30px}
-
-.art-meta{font-size:11.5px;line-height:1.7;color:#c5d4e8;background:rgba(5,13,24,.7);border-radius:10px;padding:10px 14px;margin-bottom:10px;text-shadow:0 1px 4px rgba(0,0,0,.9)}
-.art-meta strong{color:var(--accent)}
-.art-meta .row{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dashed rgba(101,217,255,.15)}
-.art-meta .row:last-child{border:none}
-
-.art-contact{font-size:11.5px;color:#c5d4e8;line-height:1.7;text-align:center;text-shadow:0 2px 6px rgba(0,0,0,.9);padding-top:8px;border-top:1px solid rgba(101,217,255,.25)}
-.art-contact a{color:var(--accent);text-decoration:none}
-.art-contact strong{color:#fff}
+.typewriter .hl{color:var(--accent);font-weight:700}
+.typewriter .hl2{color:var(--accent2);font-weight:700}
+.typewriter .num{color:var(--warning);font-weight:700}
 
 /* Responsive */
 @media(max-width:900px){
   .layout{flex-direction:column}
-  .left-panel{width:100%;height:60vh;border-right:none;border-bottom:2px solid var(--accent)}
+  .left-panel{width:100%;height:60vh;min-height:400px;border-right:none;border-bottom:2px solid var(--accent);padding:12px}
   .right-panel{width:100%;height:40vh}
-  .art-title{font-size:18px}
-  .right-content{padding:16px 18px 20px}
+  .brand h1{font-size:17px}
+  .brand .logo{width:32px;height:32px;font-size:14px}
+  .guide{font-size:10.5px;padding:6px 10px}
+  .typewriter-wrap{padding:16px 14px}
+  .typewriter{font-size:11.5px;line-height:1.55}
+  .chat-window{min-height:120px}
+  textarea{height:38px;font-size:12px}
+}
+
+@media(max-width:500px){
+  .left-panel{height:62vh;padding:10px;gap:7px}
+  .right-panel{height:38vh}
+  .lang-btn{padding:2px 6px;font-size:9px}
+  .ai-group{padding:4px 8px;font-size:10px}
+  .ai-tab{padding:4px 7px;font-size:9.5px}
+  .btn{padding:4px 8px;font-size:10px}
+  .msg{font-size:12px;padding:7px 10px}
+  .typewriter{font-size:10.5px}
 }
 </style>
 </head>
@@ -136,11 +128,10 @@ textarea{width:100%;height:50px;background:transparent;border:none;outline:none;
   <div class="left-panel">
     <div class="brand"><div class="logo">V2F</div><h1>V2F AI Hub</h1></div>
 
-    <div class="guide" id="guideBox">
-      <div><span class="step">1</span><strong>Máy có WebGPU (Chrome/Edge mới):</strong> chọn <strong>⚡ AI Siêu Nhẹ</strong> → chat MIỄN PHÍ.</div>
-      <div><span class="step">2</span><strong>Máy không có WebGPU (Brave/Firefox/máy cũ):</strong> chọn <strong>☁️ AI Đám Mây</strong> → dán API Key Gemini miễn phí.</div>
-      <div><span class="step">3</span><strong>Lấy API Key 30 giây:</strong> <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a> → Create → copy → dán vào ô 🔑.</div>
-      <div class="hint">💡 API Key tự động lưu vào trình duyệt — nhập 1 lần, dùng mãi.</div>
+    <div class="guide">
+      <div><span class="step">1</span><strong>WebGPU (Chrome/Edge mới):</strong> chọn <strong>⚡ AI Siêu Nhẹ</strong> → chat miễn phí.</div>
+      <div><span class="step">2</span><strong>Không WebGPU:</strong> chọn <strong>☁️ AI Đám Mây</strong> → dán API Key Gemini.</div>
+      <div><span class="step">3</span><strong>Lấy Key 30s:</strong> <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a></div>
     </div>
 
     <div class="notice" id="notice"></div>
@@ -155,8 +146,8 @@ textarea{width:100%;height:50px;background:transparent;border:none;outline:none;
     </div>
 
     <div class="ai-group-bar">
-      <div class="ai-group active" id="groupLocal" data-group="local">⚡ AI Siêu Nhẹ (Miễn phí · Offline)</div>
-      <div class="ai-group" id="groupCloud" data-group="cloud">☁️ AI Đám Mây (API Key)</div>
+      <div class="ai-group active" id="groupLocal" data-group="local">⚡ AI Siêu Nhẹ</div>
+      <div class="ai-group" id="groupCloud" data-group="cloud">☁️ AI Đám Mây</div>
     </div>
 
     <div class="ai-selector-bar" id="aiTabs">
@@ -178,8 +169,8 @@ textarea{width:100%;height:50px;background:transparent;border:none;outline:none;
     </div>
 
     <div class="api-key-box hidden" id="apiKeyBox">
-      🔑 <input type="password" id="apiKey" placeholder="Dán API Key (tùy chọn — chỉ cần khi dùng AI Đám Mây)...">
-      <span class="save-hint">💾 Tự động lưu</span>
+      🔑 <input type="password" id="apiKey" placeholder="Dán API Key (tùy chọn)...">
+      <span class="save-hint">💾 Lưu</span>
     </div>
 
     <div class="chat-window" id="chatWindow">
@@ -199,54 +190,14 @@ textarea{width:100%;height:50px;background:transparent;border:none;outline:none;
     </div>
 
     <div class="footer-author">
-      🎨 Tác phẩm: <strong>"Thung Lũng Hay Vực Sâu"</strong><br>
-      Tác giả Họa sĩ: <strong>Lê Trương</strong> · Video To Future
+      Họa sĩ <strong>Lê Trương</strong> · Video To Future
     </div>
   </div>
 
-  <!-- ============ CỘT PHẢI: TRANH + CHỮ CHẠY ============ -->
+  <!-- ============ CỘT PHẢI: TRANH + CHỮ CHẠY KIỂU TYPEWRITER ============ -->
   <div class="right-panel">
-
-    <!-- Chữ chạy trên cùng -->
-    <div class="ticker-wrap">
-      <div class="ticker-title">✦ Video To Future · Truongology ✦</div>
-      <div class="ticker">
-        <span class="ticker-item">🎨 <strong>Tranh ý niệm tương tác đầu tiên trên thế giới</strong><span class="sep">•</span>Không chỉ để ngắm — mà để đặt câu hỏi</span>
-        <span class="ticker-item">📖 <strong>Sách "Valley or Abyss"</strong><span class="sep">•</span>5 ngôn ngữ trên Amazon</span>
-        <span class="ticker-item">💻 <strong>Phần mềm Video To Future</strong><span class="sep">•</span>Gửi khoảnh khắc đẹp vượt thời gian</span>
-        <span class="ticker-item">🏆 <strong>3 LẦN ĐẦU TIÊN trong 1000 năm</strong><span class="sep">•</span>Tranh - Sách - Phần mềm</span>
-        <span class="ticker-item">⚖️ <strong>Bản quyền số 11375/2025</strong><span class="sep">•</span>Họa sĩ đầu tiên đăng ký Video To Future</span>
-        <span class="ticker-item">🌏 <strong>193 quốc gia thành viên Liên Hợp Quốc</strong><span class="sep">•</span>Tầm nhìn toàn cầu</span>
-      </div>
-    </div>
-
-    <!-- Nội dung chính trên nền tranh -->
-    <div class="right-content">
-      <h2 class="art-title">Thung Lũng <span>Hay</span> Vực Sâu</h2>
-      <div class="art-sub">Tranh ý niệm tương tác tư duy · Bản đồ tư duy trước khi hành động</div>
-
-      <div class="art-quote">
-        "Có những tác phẩm nghệ thuật chỉ để ngắm nhìn. Và có những tác phẩm sinh ra để đánh thức — đánh thức những câu hỏi đã ngủ quên trong sâu thẳm tâm hồn mỗi con người."
-      </div>
-
-      <div class="three-q">
-        <div class="q-item"><span class="num">1</span><strong>Chúng ta đang ở đâu?</strong><span class="en">Where are we?</span></div>
-        <div class="q-item"><span class="num">2</span><strong>Thế giới đó vận hành thế nào?</strong><span class="en">How does that world operate?</span></div>
-        <div class="q-item"><span class="num">3</span><strong>Chúng ta muốn để lại tương lai gì?</strong><span class="en">What future do we want to leave behind?</span></div>
-      </div>
-
-      <div class="art-meta">
-        <div class="row"><span><strong>Tác giả:</strong> Họa sĩ Lê Trương</span><span>2026</span></div>
-        <div class="row"><span><strong>Chất liệu:</strong> Bút lông dầu trên giấy A3</span><span>A3 · Độc bản</span></div>
-        <div class="row"><span><strong>Bản quyền:</strong> 11375/2025</span><span>Blockchain</span></div>
-        <div class="row"><span><strong>Trưng bày:</strong> B1 Hoàng Anh Gold House, TP.HCM</span><span>Vietnam</span></div>
-      </div>
-
-      <div class="art-contact">
-        📞 <strong>Zalo:</strong> 0865 660 958 &nbsp;|&nbsp; 📧 <strong>Email:</strong> video2future.givevalue@gmail.com<br>
-        🌐 <strong>Blog:</strong> <a href="https://videotofuture.blogspot.com" target="_blank">videotofuture.blogspot.com</a><br>
-        📚 <strong>Amazon:</strong> <a href="https://www.amazon.com/dp/B0GRVVJS2W" target="_blank">Valley or Abyss</a> &nbsp;|&nbsp; 💎 <strong>Website:</strong> <a href="https://givevalue.io.vn" target="_blank">givevalue.io.vn</a>
-      </div>
+    <div class="typewriter-wrap">
+      <div class="typewriter" id="typewriter"></div>
     </div>
   </div>
 
@@ -259,6 +210,93 @@ window.dispatchEvent(new Event("webllm-ready"));
 </script>
 
 <script>
+//<![CDATA[
+(function(){
+'use strict';
+
+/* ============ NỘI DUNG CHỮ CHẠY BÊN PHẢI ============ */
+var TYPEWRITER_TEXT = 
+'🎨 TRANH Ý NIỆM TƯƠNG TÁC ĐẦU TIÊN TRÊN THẾ GIỚI\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'✧ THUNG LŨNG HAY VỰC SÂU ✧\n' +
+'Tranh ý niệm tương tác tư duy\n' +
+'Bản đồ tư duy trước khi hành động\n\n' +
+'Tác giả: HỌA SĨ LÊ TRƯƠNG (Truongology)\n' +
+'Năm sáng tác: 2026\n' +
+'Chất liệu: Bút lông dầu trên giấy A3\n' +
+'Độc bản duy nhất · Bản quyền 11375/2025\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'"Có những tác phẩm nghệ thuật chỉ để ngắm nhìn.\n' +
+'Và có những tác phẩm sinh ra để đánh thức —\n' +
+'đánh thức những câu hỏi đã ngủ quên\n' +
+'trong sâu thẳm tâm hồn mỗi con người."\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'🌟 BA CÂU HỎI NỀN TẢNG 🌟\n\n' +
+'❶ Chúng ta đang ở đâu?\n' +
+'   Where are we?\n\n' +
+'❷ Thế giới đó vận hành thế nào?\n' +
+'   How does that world operate?\n\n' +
+'❸ Chúng ta muốn để lại tương lai gì?\n' +
+'   What future do we want to leave behind?\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'🏆 BA LẦN ĐẦU TIÊN TRONG 1000 NĂM\n\n' +
+'✦ Tranh ý niệm tương tác đầu tiên trên thế giới\n' +
+'✦ Hệ sinh thái Tranh - Sách - Phần mềm đầu tiên\n' +
+'✦ Họa sĩ đầu tiên đăng ký bản quyền Video To Future\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'📖 SÁCH: "VALLEY OR ABYSS"\n' +
+'Phát hành 5 ngôn ngữ trên Amazon:\n' +
+'English · 日本語 · 中文 · हिन्दी · Tiếng Việt\n\n' +
+'💻 PHẦN MỀM VIDEO TO FUTURE\n' +
+'Gửi khoảnh khắc đẹp vượt qua ranh giới thời gian\n' +
+'đến với tương lai.\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'🌏 TẦM NHÌN TOÀN CẦU\n' +
+'193 quốc gia thành viên Liên Hợp Quốc\n\n' +
+'"Nghệ thuật không chỉ dành cho những người\n' +
+'có điều kiện, mà phải là món quà tinh thần\n' +
+'cho mọi tâm hồn."\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'✍️ HỌA SĨ LÊ TRƯƠNG\n' +
+'Kiến trúc sư của Nhân cách\n' +
+'Nghệ sĩ Bản đồ Tư duy\n' +
+'Nhà thơ của Tương lai\n\n' +
+'Zalo: 0865 660 958\n' +
+'Email: video2future.givevalue@gmail.com\n' +
+'Blog: videotofuture.blogspot.com\n' +
+'Amazon: amazon.com/dp/B0GRVVJS2W\n' +
+'Trưng bày: B1 Hoàng Anh Gold House, TP.HCM\n\n' +
+'━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+'💫 "Chia sẻ yêu thương, cùng xây di sản" 💫\n\n' +
+'🎨 Video To Future · Truongology 🎨';
+
+/* ============ TYPEWRITER EFFECT ============ */
+var typewriterEl = document.getElementById('typewriter');
+var typeIdx = 0;
+var cursorEl = document.createElement('span');
+cursorEl.className = 'cursor';
+
+function typeNext(){
+  if(typeIdx < TYPEWRITER_TEXT.length){
+    typewriterEl.textContent = TYPEWRITER_TEXT.substring(0, typeIdx + 1);
+    typewriterEl.appendChild(cursorEl);
+    typeIdx++;
+    // Tốc độ gõ: nhanh hơn với ký tự thường, chậm hơn với xuống dòng
+    var ch = TYPEWRITER_TEXT.charAt(typeIdx - 1);
+    var delay = ch === '\n' ? 120 : (ch === '━' ? 15 : 35);
+    setTimeout(typeNext, delay);
+  } else {
+    // Xong → chờ 5s rồi chạy lại
+    setTimeout(function(){
+      typeIdx = 0;
+      typewriterEl.textContent = '';
+      typeNext();
+    }, 5000);
+  }
+}
+typeNext();
+
+/* ============ AI SETUP ============ */
 var MODEL_MAP={
   "Llama-3.2-1B":"Llama-3.2-1B-Instruct-q4f16_1-MLC",
   "Qwen2.5-0.5B":"Qwen2.5-0.5B-Instruct-q4f16_1-MLC",
@@ -367,4 +405,32 @@ function callCloudAI(text,key){
   if(c.type==="gemini"){return fetch(c.url+"?key="+key,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({contents:[{parts:[{text:text}]}]})}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error.message);return d.candidates[0].content.parts[0].text})}
   if(c.type==="openai"){return fetch(c.url,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},body:JSON.stringify({model:c.model,messages:[{role:"user",content:text}]})}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error.message);return d.choices[0].message.content})}
   if(c.type==="anthropic"){return fetch(c.url,{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:c.model,max_tokens:1024,messages:[{role:"user",content:text}]})}).then(function(r){return r.json()}).then(function(d){if(d.error)throw new Error(d.error.message);return d.content[0].text})}
-  return Promise.re
+  return Promise.reject(new Error("Unsupported"));
+}
+
+function sendMessage(){
+  var p=$("prompt"),text=p.value.trim();if(!text)return;
+  appendMsg("user",text);p.value="";
+  var th=appendMsg("ai","Đang suy nghĩ...");
+  var pr;
+  
+  if(currentGroup==="local"){
+    if(!webGPUSupported){
+      th.remove();
+      appendMsg("ai","⚠️ Máy bạn chưa hỗ trợ WebGPU. Vui lòng:\n1. Bật WebGPU: chrome://flags → WebGPU → Enabled → Restart\n2. Hoặc chuyển sang tab AI Đám Mây + dán API Key miễn phí tại aistudio.google.com/app/apikey");
+      return;
+    }
+    if(!engine){
+      th.remove();
+      appendMsg("ai","⏳ Mô hình đang tải, vui lòng đợi. Hoặc chọn mô hình nhỏ hơn (Qwen2.5 0.5B).");
+      return;
+    }
+    pr=engine.chat.completions.create({messages:[{role:"user",content:text}],temperature:.7,max_tokens:1024}).then(function(r){return r.choices[0].message.content});
+  }else{
+    var key=$("apiKey").value.trim();
+    if(!key){
+      th.remove();
+      appendMsg("ai","🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
+      return;
+    }
+    try{localStorage.setItem("v2f
