@@ -12,8 +12,12 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;justify-conten
 .brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px}
 .brand .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#07111f;font-weight:900;font-size:20px;display:grid;place-items:center}
 .brand h1{margin:0;font-size:24px;font-weight:700;letter-spacing:-.5px}
-.gpu-warning{display:none;background:rgba(248,113,113,.15);border:1px solid var(--danger);border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;line-height:1.6}
-.gpu-warning.show{display:block}.gpu-warning strong{color:var(--danger)}.gpu-warning a{color:var(--accent)}
+.notice{display:none;background:rgba(101,217,255,.12);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6}
+.notice.show{display:block}
+.notice.warn{background:rgba(251,191,36,.12);border-color:var(--warning)}
+.notice strong{color:var(--accent)}
+.notice.warn strong{color:var(--warning)}
+.notice a{color:var(--accent)}
 .ai-group-bar{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 .ai-group{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:7px 14px;color:var(--muted);font-size:13px;cursor:pointer;transition:.2s;font-weight:600}
 .ai-group.active,.ai-group:hover{background:rgba(167,139,250,.2);border-color:var(--accent2);color:#fff}
@@ -29,7 +33,8 @@ body{margin:0;min-height:100vh;display:flex;flex-direction:column;justify-conten
 .progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .3s ease}
 .api-key-box{background:rgba(5,13,24,.6);border:1px dashed var(--accent);border-radius:12px;padding:10px;margin-bottom:16px;display:flex;gap:8px;align-items:center}
 .api-key-box.hidden{display:none}
-.api-key-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:13px}
+.api-key-box input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:13px;font-family:inherit}
+.api-key-box .save-hint{font-size:10px;color:var(--muted);white-space:nowrap}
 .chat-window{height:360px;overflow-y:auto;background:rgba(5,13,24,.85);border:1px solid var(--panel-border);border-radius:16px;padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
 .msg{padding:10px 14px;border-radius:12px;max-width:85%;font-size:14px;line-height:1.6;white-space:pre-wrap;word-wrap:break-word}
 .msg.user{background:rgba(101,217,255,.2);border:1px solid var(--accent);align-self:flex-end;color:#fff}
@@ -63,14 +68,7 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
 <div class="ai-container">
   <div class="brand"><div class="logo">V2F</div><h1>V2F AI Hub</h1></div>
 
-  <div class="gpu-warning" id="gpuWarning">
-    <strong>⚠️ Trình duyệt không hỗ trợ WebGPU.</strong><br>
-    Tính năng "AI Siêu Nhẹ" cần WebGPU. Bạn có thể:<br>
-    • Cập nhật <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> hoặc <a href="https://www.microsoft.com/edge" target="_blank">Edge</a> mới nhất.<br>
-    • Bật WebGPU: gõ <code>chrome://flags</code> → tìm "WebGPU" → Enabled → Restart.<br>
-    • Hoặc chuyển sang <strong>☁️ AI Đám Mây</strong> (cần API Key).<br>
-    <button class="btn" style="margin-top:8px" id="recheckGPU">🔄 Kiểm tra lại WebGPU</button>
-  </div>
+  <div class="notice" id="notice"></div>
 
   <div class="lang-bar">
     <button class="lang-btn active" data-lang="vi">🇻🇳 VI</button>
@@ -83,7 +81,7 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
 
   <div class="ai-group-bar">
     <div class="ai-group active" id="groupLocal" data-group="local">⚡ AI Siêu Nhẹ (Miễn phí · Offline)</div>
-    <div class="ai-group" id="groupCloud" data-group="cloud">☁️ AI Đám Mây (API Key)</div>
+    <div class="ai-group" id="groupCloud" data-group="cloud">☁️ AI Đám Mây (API Key tùy chọn)</div>
   </div>
 
   <div class="ai-selector-bar" id="aiTabs">
@@ -91,7 +89,7 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
     <div class="ai-tab" data-group="local" data-ai="Qwen2.5-0.5B">🐉 Qwen2.5 0.5B <span class="badge">FREE</span></div>
     <div class="ai-tab" data-group="local" data-ai="Phi-3.5-mini">🔷 Phi-3.5 Mini <span class="badge">FREE</span></div>
     <div class="ai-tab" data-group="local" data-ai="Gemma-2-2B">💎 Gemma 2 2B <span class="badge">FREE</span></div>
-    <div class="ai-tab" data-group="cloud" style="display:none" data-ai="Gemini">🔵 Gemini 1.5 <span class="badge cloud">API</span></div>
+    <div class="ai-tab" data-group="cloud" style="display:none" data-ai="Gemini">🔵 Gemini 1.5 <span class="badge cloud">FREE*</span></div>
     <div class="ai-tab" data-group="cloud" style="display:none" data-ai="ChatGPT">🟢 ChatGPT <span class="badge cloud">API</span></div>
     <div class="ai-tab" data-group="cloud" style="display:none" data-ai="DeepSeek">💙 DeepSeek <span class="badge cloud">API</span></div>
     <div class="ai-tab" data-group="cloud" style="display:none" data-ai="Claude">🟠 Claude <span class="badge cloud">API</span></div>
@@ -104,7 +102,10 @@ textarea{width:100%;height:60px;background:transparent;border:none;outline:none;
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   </div>
 
-  <div class="api-key-box hidden" id="apiKeyBox">🔑 <input type="password" id="apiKey" placeholder="Dán API Key vào đây (chỉ cần khi dùng AI Đám Mây)..."></div>
+  <div class="api-key-box hidden" id="apiKeyBox">
+    🔑 <input type="password" id="apiKey" placeholder="Dán API Key (tùy chọn — chỉ cần khi dùng AI Đám Mây)...">
+    <span class="save-hint">💾 Tự động lưu</span>
+  </div>
 
   <div class="chat-window" id="chatWindow">
     <div class="msg ai">Xin chào! Tôi là V2F AI. Tôi chạy <strong>hoàn toàn miễn phí</strong> ngay trên trình duyệt của bạn — không cần API Key, không cần internet sau khi tải xong!<span class="meta">V2F AI Hub · Sẵn sàng</span></div>
@@ -153,31 +154,30 @@ var engine=null,engineLoading=false,lastAIResponse="",webGPUSupported=false,webl
 function $(id){return document.getElementById(id)}
 function appendMsg(type,text,meta){var w=$("chatWindow");var d=document.createElement("div");d.className="msg "+type;d.textContent=text;if(meta){var m=document.createElement("span");m.className="meta";m.textContent=meta;d.appendChild(m)}w.appendChild(d);w.scrollTop=w.scrollHeight;return d}
 
+function showNotice(html, isWarn){
+  var n=$("notice");
+  n.innerHTML=html;
+  n.className="notice show"+(isWarn?" warn":"");
+}
+
 function checkGPU(){
   if(!navigator.gpu){
     webGPUSupported=false;
-    $("gpuWarning").classList.add("show");
-    $("groupLocal").classList.add("disabled");
     return Promise.resolve(false);
   }
   return navigator.gpu.requestAdapter().then(function(a){
-    if(!a){webGPUSupported=false;$("gpuWarning").classList.add("show");$("groupLocal").classList.add("disabled");return false}
-    webGPUSupported=true;$("gpuWarning").classList.remove("show");$("groupLocal").classList.remove("disabled");return true;
-  }).catch(function(){webGPUSupported=false;$("gpuWarning").classList.add("show");$("groupLocal").classList.add("disabled");return false});
+    if(!a){webGPUSupported=false;return false}
+    webGPUSupported=true;return true;
+  }).catch(function(){webGPUSupported=false;return false});
 }
 
 function selectGroup(g,el){
-  if(g==="local"&&!webGPUSupported){
-    $("gpuWarning").classList.add("show");
-    return;
-  }
   currentGroup=g;
   var gs=document.querySelectorAll(".ai-group");
   for(var i=0;i<gs.length;i++)gs[i].classList.remove("active");
   if(el)el.classList.add("active");
   var ts=document.querySelectorAll(".ai-tab");
   for(var j=0;j<ts.length;j++){ts[j].style.display=ts[j].getAttribute("data-group")===g?"inline-flex":"none"}
-  // CHỈ hiện API Key khi ở chế độ Cloud
   $("apiKeyBox").classList.toggle("hidden",g!=="cloud");
   var ft=document.querySelector('.ai-tab[data-group="'+g+'"]');
   if(ft)ft.click();
@@ -188,11 +188,15 @@ function selectAI(name,el){
   var ts=document.querySelectorAll(".ai-tab");
   for(var i=0;i<ts.length;i++)ts[i].classList.remove("active");
   if(el)el.classList.add("active");
-  if(currentGroup==="local"&&webGPUSupported){
-    appendMsg("system","Đã chọn mô hình "+name+" — không cần API Key!");
-    loadWebLLM(name);
+  if(currentGroup==="local"){
+    if(webGPUSupported){
+      appendMsg("system","Đã chọn "+name+" — miễn phí, không cần API Key");
+      loadWebLLM(name);
+    }else{
+      appendMsg("system","Máy bạn chưa hỗ trợ WebGPU — vui lòng chọn AI Đám Mây hoặc bật WebGPU.");
+    }
   }else{
-    appendMsg("system","Đã chuyển sang "+name+" (cần API Key)");
+    appendMsg("system","Đã chọn "+name+" (dán API Key vào ô bên trên để dùng)");
   }
 }
 
@@ -201,7 +205,7 @@ function loadWebLLM(name){
   var id=MODEL_MAP[name];if(!id)return;
   engineLoading=true;
   $("modelStatus").classList.add("show");
-  $("modelStatusText").textContent="Đang tải "+name+"... (lần đầu có thể mất 1-3 phút)";
+  $("modelStatusText").textContent="Đang tải "+name+"... (lần đầu có thể mất 1-3 phút, các lần sau nhanh hơn nhờ cache)";
   $("progressFill").style.width="0%";
   
   function doLoad(mod){
@@ -216,10 +220,10 @@ function loadWebLLM(name){
   }
   function onLoaded(eng){
     engine=eng;
-    $("modelStatusText").textContent="✅ "+name+" đã sẵn sàng! Không cần API Key.";
+    $("modelStatusText").textContent="✅ "+name+" đã sẵn sàng!";
     $("progressFill").style.width="100%";
     setTimeout(function(){$("modelStatus").classList.remove("show")},2500);
-    appendMsg("system","✅ "+name+" đã sẵn sàng! Bạn có thể chat ngay (miễn phí, không cần API Key).");
+    appendMsg("system","✅ "+name+" đã sẵn sàng! Chat ngay — miễn phí, không cần API Key.");
     engineLoading=false;
   }
   function onErr(e){
@@ -231,7 +235,7 @@ function loadWebLLM(name){
   if(window.__webllm){doLoad(window.__webllm).then(onLoaded).catch(onErr);}
   else{
     window.addEventListener("webllm-ready",function(){doLoad(window.__webllm).then(onLoaded).catch(onErr);},{once:true});
-    setTimeout(function(){if(!window.__webllm){onErr(new Error("Không tải được thư viện WebLLM sau 20s"))}},20000);
+    setTimeout(function(){if(!window.__webllm){onErr(new Error("Không tải được thư viện WebLLM sau 20s. Kiểm tra mạng."))}},20000);
   }
 }
 
@@ -252,18 +256,24 @@ function sendMessage(){
   if(currentGroup==="local"){
     if(!webGPUSupported){
       th.remove();
-      appendMsg("ai","Máy bạn không hỗ trợ WebGPU. Vui lòng chuyển sang tab '☁️ AI Đám Mây' hoặc cập nhật trình duyệt.");
+      appendMsg("ai","⚠️ Máy bạn chưa hỗ trợ WebGPU nên không thể chạy AI Siêu Nhẹ.\n\n👉 Bạn có 2 lựa chọn:\n1. Bật WebGPU: gõ chrome://flags → tìm 'WebGPU' → Enabled → Restart Chrome\n2. Chuyển sang tab '☁️ AI Đám Mây' và dán API Key (miễn phí tại aistudio.google.com/app/apikey)");
       return;
     }
     if(!engine){
       th.remove();
-      appendMsg("ai","⏳ Mô hình chưa tải xong. Vui lòng đợi thêm hoặc chọn mô hình nhỏ hơn (Qwen2.5 0.5B).");
+      appendMsg("ai","⏳ Mô hình đang tải, vui lòng đợi thêm. Nếu quá lâu, thử chọn mô hình nhỏ hơn (Qwen2.5 0.5B).");
       return;
     }
     pr=engine.chat.completions.create({messages:[{role:"user",content:text}],temperature:.7,max_tokens:1024}).then(function(r){return r.choices[0].message.content});
   }else{
     var key=$("apiKey").value.trim();
-    if(!key){th.remove();alert("Bạn cần nhập API Key để dùng AI Đám Mây!");return}
+    if(!key){
+      th.remove();
+      appendMsg("ai","🔑 Bạn đang ở chế độ AI Đám Mây. Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy API Key Gemini MIỄN PHÍ tại: https://aistudio.google.com/app/apikey");
+      return;
+    }
+    // Lưu key vào localStorage
+    try{localStorage.setItem("v2f_api_key",key);localStorage.setItem("v2f_ai",currentAI);}catch(e){}
     pr=callCloudAI(text,key);
   }
   
@@ -272,6 +282,12 @@ function sendMessage(){
 }
 
 function setup(){
+  // Khôi phục API Key đã lưu
+  try{
+    var savedKey=localStorage.getItem("v2f_api_key");
+    if(savedKey){$("apiKey").value=savedKey;}
+  }catch(e){}
+  
   var lb=document.querySelectorAll(".lang-btn");
   for(var i=0;i<lb.length;i++){lb[i].onclick=function(){
     currentLang=this.getAttribute("data-lang");
@@ -302,14 +318,18 @@ function setup(){
     rec.onerror=function(){$("micBtn").classList.remove("recording")};
     $("micBtn").onclick=function(){if(this.classList.contains("recording"))rec.stop();else rec.start()};
   }else{$("micBtn").disabled=true;$("micBtn").title="Trình duyệt không hỗ trợ"}
-  $("recheckGPU").onclick=function(){checkGPU().then(function(ok){if(ok)loadWebLLM(currentAI)})};
   
-  // Khởi động: kiểm tra GPU rồi tự động tải mô hình
+  // Khởi động
   checkGPU().then(function(ok){
     if(ok){
+      // Có WebGPU → tải mô hình, KHÔNG cần API Key
+      showNotice("✅ Máy bạn <strong>hỗ trợ WebGPU</strong>! AI Siêu Nhẹ đang được tải — miễn phí, không cần API Key.", false);
       loadWebLLM("Llama-3.2-1B");
     }else{
-      appendMsg("system","Máy bạn không hỗ trợ WebGPU. Đã chuyển sang AI Đám Mây — vui lòng nhập API Key.");
+      // Không có WebGPU → vẫn cho dùng, nhưng gợi ý
+      showNotice("⚠️ Máy bạn <strong>chưa hỗ trợ WebGPU</strong>. Bạn vẫn có thể chat bằng <strong>AI Đám Mây</strong> (dán API Key Gemini miễn phí tại <a href='https://aistudio.google.com/app/apikey' target='_blank'>aistudio.google.com/app/apikey</a>) — hoặc bật WebGPU: gõ <code>chrome://flags</code> → tìm 'WebGPU' → Enabled → Restart.", true);
+      appendMsg("system","💡 Máy bạn chưa hỗ trợ WebGPU. Bạn vẫn chat được — chỉ cần dán API Key Gemini miễn phí vào ô 🔑 bên trên (hoặc bật WebGPU để dùng offline miễn phí).");
+      // Tự động chuyển sang Cloud
       selectGroup("cloud",$("groupCloud"));
     }
   });
