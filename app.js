@@ -117,7 +117,7 @@ function loadContent(){
 loadContent();
 
 /* ============================================================
-   AI SETUP — HỖ TRỢ ĐA PROVIDER, ĐA CẤP ĐỘ
+   AI SETUP — HỖ TRỢ ĐA PROVIDER, ĐA CẤP ĐỘ, MỌI LOẠI KEY
    ============================================================ */
 
 /* --- LOCAL MODELS (WebLLM) theo cấp độ --- */
@@ -134,19 +134,37 @@ var LOCAL_MODELS = {
   }
 };
 
-/* --- CLOUD PROVIDERS — tự nhận diện theo key --- */
+/* --- CLOUD PROVIDERS --- */
 var CLOUD_PROVIDERS = {
   gemini: {
     name: "Gemini",
     build: function(key, model, text){
       var url = "https://generativelanguage.googleapis.com/v1beta/models/"
-              + (model || "gemini-1.5-flash") + ":generateContent?key=" + key;
+              + (model || "gemini-1.5-flash") + ":generateContent?key=" + encodeURIComponent(key);
       return fetch(url, {
         method: "POST",
         headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({contents:[{parts:[{text:text}]}]})
+        body: JSON.stringify({
+          contents:[{parts:[{text:text}]}]
+        })
       }).then(function(r){ return r.json(); }).then(function(d){
-        if(d.error) throw new Error(d.error.message);
+        if(d.error){
+          var msg = d.error.message || "Lỗi không xác định";
+          if(/API key not valid|API_KEY_INVALID/i.test(msg)){
+            throw new Error("API Key Gemini không hợp lệ. Lấy key mới tại https://aistudio.google.com/app/apikey");
+          }
+          if(/quota|rate limit/i.test(msg)){
+            throw new Error("Hết quota miễn phí hôm nay. Thử lại sau hoặc đổi model khác.");
+          }
+          throw new Error(msg);
+        }
+        if(!d.candidates || !d.candidates[0]){
+          throw new Error("Gemini không trả về kết quả. Thử lại.");
+        }
+        // Xử lý cả trường hợp bị chặn bởi safety filter
+        if(d.candidates[0].finishReason === "SAFETY"){
+          return "[Nội dung bị chặn bởi bộ lọc an toàn của Gemini]";
+        }
         return d.candidates[0].content.parts[0].text;
       });
     }
@@ -159,7 +177,17 @@ var CLOUD_PROVIDERS = {
         headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},
         body: JSON.stringify({model: model||"gpt-4o-mini", messages:[{role:"user",content:text}]})
       }).then(function(r){ return r.json(); }).then(function(d){
-        if(d.error) throw new Error(d.error.message);
+        if(d.error){
+          var msg = d.error.message || "Lỗi không xác định";
+          if(/incorrect api key|invalid_api_key/i.test(msg)){
+            throw new Error("API Key OpenAI không hợp lệ.");
+          }
+          if(/quota|insufficient_quota/i.test(msg)){
+            throw new Error("Hết quota OpenAI. Kiểm tra billing.");
+          }
+          throw new Error(msg);
+        }
+        if(!d.choices || !d.choices[0]) throw new Error("OpenAI không trả về kết quả.");
         return d.choices[0].message.content;
       });
     }
@@ -172,7 +200,8 @@ var CLOUD_PROVIDERS = {
         headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},
         body: JSON.stringify({model: model||"deepseek-chat", messages:[{role:"user",content:text}]})
       }).then(function(r){ return r.json(); }).then(function(d){
-        if(d.error) throw new Error(d.error.message);
+        if(d.error) throw new Error(d.error.message || "Lỗi DeepSeek");
+        if(!d.choices || !d.choices[0]) throw new Error("DeepSeek không trả về kết quả.");
         return d.choices[0].message.content;
       });
     }
@@ -188,9 +217,14 @@ var CLOUD_PROVIDERS = {
           "anthropic-version":"2023-06-01",
           "anthropic-dangerous-direct-browser-access":"true"
         },
-        body: JSON.stringify({model: model||"claude-3-5-sonnet-20241022", max_tokens:1024, messages:[{role:"user",content:text}]})
+        body: JSON.stringify({
+          model: model||"claude-3-5-sonnet-20241022",
+          max_tokens:1024,
+          messages:[{role:"user",content:text}]
+        })
       }).then(function(r){ return r.json(); }).then(function(d){
-        if(d.error) throw new Error(d.error.message);
+        if(d.error) throw new Error(d.error.message || "Lỗi Claude");
+        if(!d.content || !d.content[0]) throw new Error("Claude không trả về kết quả.");
         return d.content[0].text;
       });
     }
@@ -203,7 +237,8 @@ var CLOUD_PROVIDERS = {
         headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},
         body: JSON.stringify({model: model||"grok-beta", messages:[{role:"user",content:text}]})
       }).then(function(r){ return r.json(); }).then(function(d){
-        if(d.error) throw new Error(d.error.message);
+        if(d.error) throw new Error(d.error.message || "Lỗi Grok");
+        if(!d.choices || !d.choices[0]) throw new Error("Grok không trả về kết quả.");
         return d.choices[0].message.content;
       });
     }
@@ -216,7 +251,8 @@ var CLOUD_PROVIDERS = {
         headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},
         body: JSON.stringify({model: model||"mistral-large-latest", messages:[{role:"user",content:text}]})
       }).then(function(r){ return r.json(); }).then(function(d){
-        if(d.error) throw new Error(d.error.message);
+        if(d.error) throw new Error(d.error.message || "Lỗi Mistral");
+        if(!d.choices || !d.choices[0]) throw new Error("Mistral không trả về kết quả.");
         return d.choices[0].message.content;
       });
     }
@@ -227,44 +263,61 @@ var CLOUD_PROVIDERS = {
       var urlEl = document.getElementById("customUrl");
       var url = (urlEl && urlEl.value.trim()) || "";
       if(!url) throw new Error("Chưa nhập URL endpoint tùy chỉnh");
+      var headers = {"Content-Type":"application/json"};
+      if(key) headers["Authorization"] = "Bearer " + key;
       return fetch(url, {
         method:"POST",
-        headers:{"Content-Type":"application/json","Authorization":"Bearer "+key},
+        headers: headers,
         body: JSON.stringify({model: model||"gpt-3.5-turbo", messages:[{role:"user",content:text}]})
       }).then(function(r){ return r.json(); }).then(function(d){
-        if(d.error) throw new Error(d.error.message);
+        if(d.error) throw new Error(d.error.message || "Lỗi endpoint tùy chỉnh");
         return d.choices && d.choices[0] ? d.choices[0].message.content : JSON.stringify(d);
       });
     }
   }
 };
 
-/* --- Tự nhận diện provider từ API key --- */
+/* ============================================================
+   TỰ NHẬN DIỆN PROVIDER — HỖ TRỢ MỌI LOẠI KEY
+   Bao gồm cả format mới của Google: AQ.Ab8RN6...
+   ============================================================ */
 function detectProvider(key){
   key = (key||"").trim();
   if(!key) return null;
 
-  // Ưu tiên prefix đặc trưng
+  // Claude (Anthropic)
   if(/^sk-ant-/.test(key)) return "claude";
-  if(/^xai-/.test(key))    return "grok";
-  if(/^AIza/.test(key))    return "gemini";
 
-  // sk-... có thể là OpenAI hoặc DeepSeek
+  // Grok (xAI)
+  if(/^xai-/.test(key)) return "grok";
+
+  // ✅ GEMINI — CẢ 2 FORMAT:
+  //    - Cũ:  AIzaSy...
+  //    - Mới: AQ.Ab8RN6...  (Google đổi format từ cuối 2025)
+  if(/^AIza/.test(key)) return "gemini";
+  if(/^AQ\./.test(key)) return "gemini";
+
+  // OpenAI hoặc DeepSeek (sk-...)
   if(/^sk-/.test(key)){
     var manual = (document.getElementById("providerSelect")||{}).value;
     if(manual === "deepseek") return "deepseek";
     if(manual === "openai")   return "openai";
-    return "openai"; // mặc định
+    return "openai";
   }
 
-  // 32 ký tự chữ + số → Mistral
+  // Mistral — 32 ký tự chữ + số
   if(/^[A-Za-z0-9]{32}$/.test(key)) return "mistral";
 
-  // Có URL tùy chỉnh → custom
+  // Có URL custom → dùng custom
   var urlEl = document.getElementById("customUrl");
   if(urlEl && urlEl.value.trim()) return "custom";
 
-  return "custom";
+  // Mặc định: nếu user đã chọn provider thủ công qua providerSelect
+  var manual2 = (document.getElementById("providerSelect")||{}).value;
+  if(manual2 && CLOUD_PROVIDERS[manual2]) return manual2;
+
+  // Cuối cùng: thử Gemini (vì Gemini chấp nhận nhiều format key)
+  return "gemini";
 }
 
 var group = "local";
@@ -356,7 +409,7 @@ function setAI(name, el){
   }
 }
 
-/* --- Tải model local (tự chọn theo GPU) --- */
+/* --- Tải model local --- */
 function loadLLM(name){
   if(loading || !gpuStrong) return;
 
@@ -395,7 +448,6 @@ function loadLLM(name){
   function err(e){
     if($("modelStatusText")) $("modelStatusText").textContent = "❌ Lỗi: " + e.message;
     loading = false;
-    // Strong lỗi → thử lại light
     if(id === LOCAL_MODELS.strong["Phi-3.5-mini"]){
       console.warn("[V2F] Model strong lỗi, fallback light:", e.message);
       loadLLM("Llama-3.2-1B");
@@ -414,7 +466,9 @@ function loadLLM(name){
   }
 }
 
-/* --- Gọi cloud — tự nhận diện provider + tự chọn model theo cấp độ --- */
+/* ============================================================
+   GỌI CLOUD — có timeout 30s chống "suy nghĩ hoài"
+   ============================================================ */
 function callCloud(text, key){
   var providerId = detectProvider(key);
   if(!providerId) return Promise.reject(new Error("API Key trống hoặc không hợp lệ"));
@@ -438,14 +492,28 @@ function callCloud(text, key){
   var model = (modelMap[providerId] && modelMap[providerId][level]) || null;
   console.log("[V2F] Cloud call →", provider.name, "| level:", level, "| model:", model);
 
-  return provider.build(key, model, text).catch(function(err){
-    // Pro lỗi → thử standard
+  // ✅ TIMEOUT 30s — chống treo "Đang suy nghĩ..."
+  var timeoutMs = 30000;
+  var timeoutPromise = new Promise(function(_, reject){
+    setTimeout(function(){
+      reject(new Error(
+        "Hết thời gian chờ 30s. Kiểm tra: " +
+        "(1) Key đúng chưa? " +
+        "(2) Mạng có ổn không? " +
+        "(3) Nếu ở VN, thử bật 1.1.1.1 hoặc VPN (Google API có thể bị chặn)."
+      ));
+    }, timeoutMs);
+  });
+
+  var callPromise = provider.build(key, model, text).catch(function(err){
     if(level === "pro" && modelMap[providerId] && modelMap[providerId].standard){
       console.warn("[V2F] Model pro lỗi, fallback standard:", err.message);
       return provider.build(key, modelMap[providerId].standard, text);
     }
     throw err;
   });
+
+  return Promise.race([callPromise, timeoutPromise]);
 }
 
 /* --- Lưu API Key --- */
@@ -459,7 +527,9 @@ function saveApiKey(){
   }
   try{
     localStorage.setItem("v2f_api_key", key);
-    addMsg("system", "✅ Đã lưu API Key thành công!");
+    var prov = detectProvider(key);
+    var pname = (prov && CLOUD_PROVIDERS[prov]) ? CLOUD_PROVIDERS[prov].name : "không xác định";
+    addMsg("system", "✅ Đã lưu API Key (" + pname + ") thành công!");
   }catch(e){
     addMsg("system", "❌ Không thể lưu API Key: " + e.message);
   }
@@ -482,7 +552,8 @@ function send(){
   }
   function fail(err){
     th.remove();
-    addMsg("ai", "Lỗi: " + err.message);
+    addMsg("ai", "❌ Lỗi: " + err.message);
+    console.error("[V2F] Lỗi gọi AI:", err);
   }
 
   if(group === "local"){
@@ -505,7 +576,6 @@ function send(){
     .then(function(r){ return r.choices[0].message.content; })
     .then(done)
     .catch(function(e){
-      // Local lỗi → fallback cloud nếu có key
       var key = ($("apiKey") && $("apiKey").value.trim()) || "";
       if(key){
         console.warn("[V2F] Local lỗi, fallback cloud:", e.message);
@@ -521,6 +591,13 @@ function send(){
       addMsg("ai", "🔑 Vui lòng dán API Key vào ô bên trên.\n\n💡 Lấy miễn phí tại: https://aistudio.google.com/app/apikey");
       return;
     }
+
+    // Hiển thị provider đang gọi
+    var prov = detectProvider(key);
+    if(prov && CLOUD_PROVIDERS[prov]){
+      th.textContent = "Đang gọi " + CLOUD_PROVIDERS[prov].name + "...";
+    }
+
     try{ localStorage.setItem("v2f_api_key", key); }catch(e){}
     callCloud(text, key).then(done).catch(fail);
   }
@@ -539,20 +616,24 @@ function setup(){
 
   // Tự nhận diện provider khi gõ key
   if($("apiKey")){
-    $("apiKey").addEventListener("input", function(){
-      var key = this.value.trim();
+    function updateLabel(){
+      var key = $("apiKey").value.trim();
       var prov = detectProvider(key);
       var lbl = $("providerLabel");
       if(lbl){
-        if(prov && CLOUD_PROVIDERS[prov]){
+        if(key && prov && CLOUD_PROVIDERS[prov]){
           lbl.textContent = "🔎 Nhận diện: " + CLOUD_PROVIDERS[prov].name;
           lbl.style.color = "#4ade80";
-        } else {
-          lbl.textContent = key ? "❓ Sẽ thử provider tùy chỉnh" : "";
+        } else if(key){
+          lbl.textContent = "❓ Chưa nhận diện được — sẽ thử Gemini";
           lbl.style.color = "#fbbf24";
+        } else {
+          lbl.textContent = "";
         }
       }
-    });
+    }
+    $("apiKey").addEventListener("input", updateLabel);
+    updateLabel();
   }
 
   // Cấp độ
@@ -630,7 +711,7 @@ function setup(){
     $("micBtn").disabled = true;
   }
 
-  // Kiểm tra GPU — luôn cho phép cloud
+  // Kiểm tra GPU
   checkGPU().then(function(res){
     if(!res.ok || !res.strong){
       notice("⚠️ Máy bạn " + (res.ok ? "GPU yếu" : "chưa hỗ trợ WebGPU") +
